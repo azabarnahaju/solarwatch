@@ -10,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<ICityDataProvider, CityDataProvider>();
+builder.Services.AddSingleton<IJsonProcessor, JsonProcessor>();
 
 var app = builder.Build();
 

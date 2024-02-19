@@ -11,15 +11,17 @@ public class SunsetController : ControllerBase
 {
     private readonly ILogger<SunsetController> _logger;
     private readonly ICityDataProvider _cityDataProvider;
+    private readonly IJsonProcessor _jsonProcessor;
 
-    public SunsetController(ILogger<SunsetController> logger, ICityDataProvider cityDataProvider)
+    public SunsetController(ILogger<SunsetController> logger, ICityDataProvider cityDataProvider, IJsonProcessor jsonProcessor)
     {
         _logger = logger;
         _cityDataProvider = cityDataProvider;
+        _jsonProcessor = jsonProcessor;
     }
     
     [HttpGet("GetSunset")]
-    public string GetSunrise(string cityName)
+    public string GetSunset(string cityName)
     {
         var city = GetCity(cityName);
         var lat = city.Lat;
@@ -31,40 +33,13 @@ public class SunsetController : ControllerBase
         _logger.LogInformation("Calling Sunrise-Sunset API with url: {}", url);
         var sunData = client.DownloadString(url);
 
-        return ProcessSunsetJsonResponse(sunData);
+        return _jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunset);
     }
 
     private City GetCity(string cityName)
     {
-        var weatherData = _cityDataProvider.GetCity(cityName);
+        var cityData = _cityDataProvider.GetCity(cityName);
 
-        return ProcessCityJsonResponse(weatherData);
-    }
-    
-    private static City ProcessCityJsonResponse(string weatherData)
-    {
-        JsonDocument json = JsonDocument.Parse(weatherData);
-        JsonElement firstCity = json.RootElement[0];
-        JsonElement name = firstCity.GetProperty("name");
-        JsonElement lat = firstCity.GetProperty("lat");
-        JsonElement lon = firstCity.GetProperty("lon");
-
-        City city = new City
-        {
-            Name = name.GetString(),
-            Lat = lat.GetDouble(),
-            Lon = lon.GetDouble()
-        };
-
-        return city;
-    }
-    
-    private static string ProcessSunsetJsonResponse(string sunData)
-    {
-        JsonDocument json = JsonDocument.Parse(sunData);
-        JsonElement results = json.RootElement.GetProperty("results");
-        JsonElement time = results.GetProperty("sunset");
-
-        return time.GetString();
+        return _jsonProcessor.ProcessCityJsonResponse(cityData);
     }
 }
