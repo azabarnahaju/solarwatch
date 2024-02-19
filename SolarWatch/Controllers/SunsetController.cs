@@ -26,29 +26,55 @@ public class SunsetController : ControllerBase
     }
     
     [HttpGet("GetSunset")]
-    public string GetSunset(string cityName)
+    public ActionResult<string> GetSunset(string cityName)
     {
-        var city = GetCity(cityName);
+        try
+        {
+            var city = GetCity(cityName);
         
-        var sunData = _sunDataProvider.GetSunData(city.Lat, city.Lon);
+            var sunData = _sunDataProvider.GetSunData(city.Lat, city.Lon);
 
-        return _jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunset);
+            return _jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunset);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Error getting sunset data", e);
+            return NotFound("Error getting sunset data");
+        }
+        
     }
     
     [HttpGet("GetSunsetOnDate")]
-    public string GetSunsetOnDate(string cityName, DateTime date)
+    public ActionResult<string> GetSunsetOnDate(string cityName, DateTime date)
     {
-        var city = GetCity(cityName);
+        try
+        {
+            var city = GetCity(cityName);
         
-        var sunData = _sunDataProvider.GetSunData(city.Lat, city.Lon, date);
+            var sunData = _sunDataProvider.GetSunData(city.Lat, city.Lon, date);
         
-        return _jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunrise);
+            return _jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunrise);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Error getting sunset data", e);
+            return NotFound("Error getting sunset data");
+        }
+        
     }
     
     private City GetCity(string cityName)
     {
-        var cityData = _cityDataProvider.GetCity(cityName);
-
-        return _jsonProcessor.ProcessCityJsonResponse(cityData);
+        try
+        {
+            var cityData = _cityDataProvider.GetCity(cityName);
+        
+            return _jsonProcessor.ProcessCityJsonResponse(cityData);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Error getting city data.", e);
+            return null;
+        }
     }
 }
