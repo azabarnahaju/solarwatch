@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using SolarWatch.Services;
 
 namespace SolarWatch.Controllers;
 
@@ -9,10 +10,12 @@ namespace SolarWatch.Controllers;
 public class SunsetController : ControllerBase
 {
     private readonly ILogger<SunsetController> _logger;
+    private readonly ICityDataProvider _cityDataProvider;
 
-    public SunsetController(ILogger<SunsetController> logger)
+    public SunsetController(ILogger<SunsetController> logger, ICityDataProvider cityDataProvider)
     {
         _logger = logger;
+        _cityDataProvider = cityDataProvider;
     }
     
     [HttpGet("GetSunset")]
@@ -33,14 +36,7 @@ public class SunsetController : ControllerBase
 
     private City GetCity(string cityName)
     {
-        var apiKey = "d80b2959da1f5d7225828323dee566bd";
-        
-        var url = $"http://api.openweathermap.org/geo/1.0/direct?q={cityName}&limit=1&appid={apiKey}";
-
-        using var client = new WebClient();
-        
-        _logger.LogInformation("Calling OpenWeather API with url: {}", url);
-        var weatherData = client.DownloadString(url);
+        var weatherData = _cityDataProvider.GetCity(cityName);
 
         return ProcessCityJsonResponse(weatherData);
     }
