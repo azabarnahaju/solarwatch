@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using SolarWatch.Services;
+using SolarWatch.Services.SunData;
 
 namespace SolarWatch.Controllers;
 
@@ -11,27 +12,24 @@ public class SunriseController : ControllerBase
 {
     private readonly ILogger<SunriseController> _logger;
     private readonly ICityDataProvider _cityDataProvider;
+    private readonly ISunDataProvider _sunDataProvider;
     private readonly IJsonProcessor _jsonProcessor;
+    
 
-    public SunriseController(ILogger<SunriseController> logger, ICityDataProvider cityDataProvider, IJsonProcessor jsonProcessor)
+    public SunriseController(ILogger<SunriseController> logger, ICityDataProvider cityDataProvider, ISunDataProvider sunDataProvider, IJsonProcessor jsonProcessor)
     {
         _logger = logger;
         _cityDataProvider = cityDataProvider;
         _jsonProcessor = jsonProcessor;
+        _sunDataProvider = sunDataProvider;
     }
     
     [HttpGet("GetSunrise")]
     public string GetSunrise(string cityName)
     {
         var city = GetCity(cityName);
-        var lat = city.Lat;
-        var lon = city.Lon;
-        var url = $"https://api.sunrise-sunset.org/json?lat={lat}&lng={lon}";
-
-        using var client = new WebClient();
         
-        _logger.LogInformation("Calling Sunrise-Sunset API with url: {}", url);
-        var sunData = client.DownloadString(url);
+        var sunData = _sunDataProvider.GetSunData(city.Lat, city.Lon);
 
         return _jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunrise);
     }
