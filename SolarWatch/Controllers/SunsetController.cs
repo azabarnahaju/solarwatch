@@ -2,6 +2,8 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using SolarWatch.Services;
+using SolarWatch.Services.CityData;
+using SolarWatch.Services.JsonProcessing;
 using SolarWatch.Services.SunData;
 
 namespace SolarWatch.Controllers;
@@ -32,7 +34,17 @@ public class SunsetController : ControllerBase
 
         return _jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunset);
     }
-
+    
+    [HttpGet("GetSunsetOnDate")]
+    public string GetSunsetOnDate(string cityName, DateTime date)
+    {
+        var city = GetCity(cityName);
+        
+        var sunData = _sunDataProvider.GetSunData(city.Lat, city.Lon, date);
+        
+        return _jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunrise);
+    }
+    
     private City GetCity(string cityName)
     {
         var cityData = _cityDataProvider.GetCity(cityName);

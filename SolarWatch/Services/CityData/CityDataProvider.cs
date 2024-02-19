@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace SolarWatch.Services;
+namespace SolarWatch.Services.CityData;
 
 public class CityDataProvider : ICityDataProvider
 {

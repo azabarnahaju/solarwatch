@@ -1,6 +1,4 @@
-﻿using SolarWatch.Controllers;
-
-namespace SolarWatch.Services;
+﻿namespace SolarWatch.Services.JsonProcessing;
 
 public interface IJsonProcessor
 {

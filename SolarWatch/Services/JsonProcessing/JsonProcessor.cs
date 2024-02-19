@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace SolarWatch.Services;
+namespace SolarWatch.Services.JsonProcessing;
 
 public class JsonProcessor : IJsonProcessor
 {
