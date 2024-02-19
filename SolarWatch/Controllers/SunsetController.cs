@@ -34,7 +34,7 @@ public class SunsetController : ControllerBase
         
             var sunData = _sunDataProvider.GetSunData(city.Lat, city.Lon);
 
-            return _jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunset);
+            return Ok(_jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunset));
         }
         catch (Exception e)
         {
@@ -53,7 +53,7 @@ public class SunsetController : ControllerBase
         
             var sunData = _sunDataProvider.GetSunData(city.Lat, city.Lon, date);
         
-            return _jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunrise);
+            return Ok(_jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunset));
         }
         catch (Exception e)
         {
