@@ -27,13 +27,13 @@ public class SunriseController : ControllerBase
     }
     
     [HttpGet("GetSunrise")]
-    public ActionResult<string> GetSunrise(string cityName)
+    public async Task<ActionResult<string>> GetSunrise(string cityName)
     {
         try
         {
-            var city = GetCity(cityName);
+            var city = await GetCity(cityName);
             
-            var sunData = _sunDataProvider.GetSunData(city.Lat, city.Lon);
+            var sunData = await _sunDataProvider.GetSunData(city.Lat, city.Lon);
 
             return Ok(_jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunrise));
         }
@@ -46,13 +46,13 @@ public class SunriseController : ControllerBase
     }
     
     [HttpGet("GetSunRiseOnDate")]
-    public ActionResult<string> GetSunriseOnDate(string cityName, DateTime date)
+    public async Task<ActionResult<string>> GetSunriseOnDate(string cityName, DateTime date)
     {
         try
         {
-            var city = GetCity(cityName);
+            var city = await GetCity(cityName);
         
-            var sunData = _sunDataProvider.GetSunData(city.Lat, city.Lon, date);
+            var sunData = await _sunDataProvider.GetSunData(city.Lat, city.Lon, date);
         
             return Ok(_jsonProcessor.ProcessSunJsonResponse(sunData, SunMovement.Sunrise));
         }
@@ -64,11 +64,11 @@ public class SunriseController : ControllerBase
         
     }
 
-    private City GetCity(string cityName)
+    private async Task<City> GetCity(string cityName)
     {
         try
         {
-            var cityData = _cityDataProvider.GetCity(cityName);
+            var cityData = await _cityDataProvider.GetCity(cityName);
         
             return _jsonProcessor.ProcessCityJsonResponse(cityData);
         }
