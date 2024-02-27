@@ -2,5 +2,5 @@
 
 public interface ICityDataProvider
 {
-    string GetCity(string cityName);
+    Task<string> GetCity(string cityName);
 }
