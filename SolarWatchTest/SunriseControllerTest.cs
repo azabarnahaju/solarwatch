@@ -28,7 +28,7 @@ public class SunriseControllerTest
     }
     
     [Test]
-    public void GetSunset_ReturnsNotFoundResultIfCityDataProviderFails()
+    public async Task GetSunset_ReturnsNotFoundResultIfCityDataProviderFails()
     {
         // Arrange
         var cityData = "[]";
@@ -36,21 +36,21 @@ public class SunriseControllerTest
             .Throws(new Exception());
         
         // Act
-        var result = _controller.GetSunrise("");
+        var result = await _controller.GetSunrise("");
         
         // Assert
         Assert.IsInstanceOf(typeof(NotFoundObjectResult), result.Result);
     }
     
     [Test]
-    public void GetSunset_ReturnsNotFoundResultIfSunDataProviderFails()
+    public async Task GetSunset_ReturnsNotFoundResultIfSunDataProviderFails()
     {
         // Arrange
         var sunData = "{}";
         _sunDataProviderMock.Setup(x => x.GetSunData(It.IsAny<double>(), It.IsAny<double>()));
 
         // Act
-        var result = _controller.GetSunrise("");
+        var result = await _controller.GetSunrise("");
         
         // Assert
         Assert.IsInstanceOf(typeof(NotFoundObjectResult), result.Result);
