@@ -2,6 +2,7 @@
 
 public class Sunrise
 {
-    public string Time { get; set; }
-    public int CityId { get; set; }
+    public int Id { get; init; }
+    public string Time { get; init; }
+    public int CityId { get; init; }
 }

@@ -2,9 +2,10 @@
 
 public class City
 {
-    public string Name { get; set; }
-    public double Lat { get; set; }
-    public double Lon { get; set; }
-    public string State { get; set; }
-    public string Country { get; set; }
+    public int Id { get; init; }
+    public string Name { get; init; }
+    public double Lat { get; init; }
+    public double Lon { get; init; }
+    public string State { get; init; }
+    public string Country { get; init; }
 }
