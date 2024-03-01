@@ -1,4 +1,7 @@
-﻿namespace SolarWatch.Services.JsonProcessing;
+﻿using SolarWatch.Model;
+using SolarWatch.Model.Enums;
+
+namespace SolarWatch.Services.JsonProcessing;
 
 public interface IJsonProcessor
 {

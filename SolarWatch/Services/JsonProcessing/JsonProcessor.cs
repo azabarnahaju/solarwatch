@@ -1,4 +1,6 @@
 ﻿using System.Text.Json;
+using SolarWatch.Model;
+using SolarWatch.Model.Enums;
 
 namespace SolarWatch.Services.JsonProcessing;
 

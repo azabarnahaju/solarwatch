@@ -1,6 +1,8 @@
 ﻿using System.Net;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using SolarWatch.Model;
+using SolarWatch.Model.Enums;
 using SolarWatch.Services;
 using SolarWatch.Services.CityData;
 using SolarWatch.Services.JsonProcessing;
