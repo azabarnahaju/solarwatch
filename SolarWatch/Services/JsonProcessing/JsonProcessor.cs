@@ -13,12 +13,17 @@ public class JsonProcessor : IJsonProcessor
         JsonElement name = firstCity.GetProperty("name");
         JsonElement lat = firstCity.GetProperty("lat");
         JsonElement lon = firstCity.GetProperty("lon");
+        JsonElement country = firstCity.GetProperty("country");
+        JsonElement state;
+        var hasState = firstCity.TryGetProperty("state", out state);
 
         City city = new City
         {
             Name = name.GetString(),
             Lat = lat.GetDouble(),
-            Lon = lon.GetDouble()
+            Lon = lon.GetDouble(),
+            Country = country.GetString(),
+            State = hasState ? state.GetString() : ""
         };
 
         return city;

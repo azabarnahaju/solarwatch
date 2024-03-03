@@ -16,6 +16,12 @@ public class SunsetRepository : ISolarMovementRepository
         using var dbContext = new SolarWatchContext();
         return dbContext.Sunsets.FirstOrDefault(s => s.CityId == cityId);
     }
+    
+    public SolarMovement? GetByCityAndDate(int cityId, DateTime date)
+    {
+        using var dbContext = new SolarWatchContext();
+        return dbContext.Sunsets.FirstOrDefault(s => s.CityId == cityId && s.Date == date);
+    }
 
     public SolarMovement? GetById(int id)
     {

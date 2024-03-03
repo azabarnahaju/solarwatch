@@ -1,6 +1,5 @@
 ﻿using SolarWatch.Data;
 using SolarWatch.Model;
-using SunMovement = SolarWatch.Model.Enums.SunMovement;
 
 namespace SolarWatch.Services.Repository;
 
@@ -18,6 +17,12 @@ public class SunriseRepository : ISolarMovementRepository
         return dbContext.Sunrises.FirstOrDefault(s => s.CityId == cityId);
     }
 
+    public SolarMovement? GetByCityAndDate(int cityId, DateTime date)
+    {
+        using var dbContext = new SolarWatchContext();
+        return dbContext.Sunrises.FirstOrDefault(s => s.CityId == cityId && s.Date == date);
+    }
+    
     public SolarMovement? GetById(int id)
     {
         using var dbContext = new SolarWatchContext();
