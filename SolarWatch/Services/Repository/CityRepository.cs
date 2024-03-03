@@ -26,21 +26,21 @@ public class CityRepository : ICityRepository
     public void Add(City city)
     {
         using var dbContext = new SolarWatchContext();
-        dbContext.Add(city);
+        dbContext.Cities.Add(city);
         dbContext.SaveChanges();
     }
 
     public void Update(City city)
     {
         using var dbContext = new SolarWatchContext();
-        dbContext.Update(city);
+        dbContext.Cities.Update(city);
         dbContext.SaveChanges();
     }
 
     public void Delete(City city)
     {
         using var dbContext = new SolarWatchContext();
-        dbContext.Remove(city);
+        dbContext.Cities.Remove(city);
         dbContext.SaveChanges();
     }
 }
