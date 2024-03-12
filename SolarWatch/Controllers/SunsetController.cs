@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SolarWatch.Model;
 using SolarWatch.Model.Enums;
@@ -31,7 +32,7 @@ public class SunsetController : ControllerBase
         _cityRepository = cityRepository;
     }
     
-    [HttpGet("GetSunset")]
+    [HttpGet("GetSunset"), Authorize]
     public async Task<ActionResult<string>> GetSunset(string cityName)
     {
         try
@@ -71,7 +72,7 @@ public class SunsetController : ControllerBase
         
     }
     
-    [HttpGet("GetSunsetOnDate")]
+    [HttpGet("GetSunsetOnDate"), Authorize]
     public async Task<ActionResult<string>> GetSunsetOnDate(string cityName, DateTime date)
     {
         try
