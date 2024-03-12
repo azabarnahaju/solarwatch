@@ -4,11 +4,11 @@ namespace SolarWatch.Services.Repository;
 
 public interface ISolarMovementRepository
 {
-    IEnumerable<SolarMovement> GetAll();
-    SolarMovement? GetByCity(int cityId);
-    SolarMovement? GetByCityAndDate(int cityId, DateTime date);
-    SolarMovement? GetById(int id);
-    void Add(SolarMovement solarMovement);
-    void Update(SolarMovement solarMovement);
-    void Delete(SolarMovement solarMovement);
+    Task<IEnumerable<SolarMovement>> GetAll();
+    Task<SolarMovement?> GetByCity(int cityId);
+    Task<SolarMovement?> GetByCityAndDate(int cityId, DateTime date);
+    Task<SolarMovement?> GetById(int id);
+    Task Add(SolarMovement solarMovement);
+    Task Update(SolarMovement solarMovement);
+    Task Delete(int id);
 }

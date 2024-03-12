@@ -34,7 +34,7 @@ public class SunriseController : ControllerBase
         _sunriseRepository = sunriseRepository;
     }
     
-    [HttpGet("GetSunrise"), Authorize]
+    [HttpGet("GetSunrise"), Authorize(Roles="Admin, User")]
     public async Task<ActionResult<string>> GetSunrise(string cityName)
     {
         try
@@ -43,11 +43,11 @@ public class SunriseController : ControllerBase
             while (city is null)
             {
                 var cityFromProvider = await GetCity(cityName);
-                _cityRepository.Add(cityFromProvider);
+                await _cityRepository.Add(cityFromProvider);
                 city = await _cityRepository.GetCity(cityFromProvider.Name);
             }
 
-            var sunData = _sunriseRepository.GetByCity(city.Id);
+            var sunData = await _sunriseRepository.GetByCity(city.Id);
             while (sunData is null)
             {
                 var sunDataFromProvider = await _sunDataProvider.GetSunData(city.Lat, city.Lon);
@@ -59,9 +59,9 @@ public class SunriseController : ControllerBase
                     Time = sunDataFromProviderFormatted,
                     Date = DateTime.Today
                 };
-                _sunriseRepository.Add(sunriseToAdd);
+                await _sunriseRepository.Add(sunriseToAdd);
                 
-                sunData = _sunriseRepository.GetByCity(city.Id);
+                sunData = await _sunriseRepository.GetByCity(city.Id);
             }
             
             return Ok(sunData);
@@ -74,7 +74,7 @@ public class SunriseController : ControllerBase
         
     }
     
-    [HttpGet("GetSunRiseOnDate"), Authorize]
+    [HttpGet("GetSunRiseOnDate"), Authorize(Roles="Admin, User")]
     public async Task<ActionResult<string>> GetSunriseOnDate(string cityName, DateTime date)
     {
         try
@@ -83,11 +83,11 @@ public class SunriseController : ControllerBase
             while (city is null)
             {
                 var cityFromProvider = await GetCity(cityName);
-                _cityRepository.Add(cityFromProvider);
+                await _cityRepository.Add(cityFromProvider);
                 city = await  _cityRepository.GetCity(cityFromProvider.Name);
             }
             
-            var sunData = _sunriseRepository.GetByCityAndDate(city.Id, date);
+            var sunData = await _sunriseRepository.GetByCityAndDate(city.Id, date);
             while (sunData is null)
             {
                 var sunDataFromProvider = await _sunDataProvider.GetSunData(city.Lat, city.Lon, date);
@@ -99,9 +99,9 @@ public class SunriseController : ControllerBase
                     Time = sunDataFromProviderFormatted,
                     Date = date
                 };
-                _sunriseRepository.Add(sunriseToAdd);
+                await _sunriseRepository.Add(sunriseToAdd);
                 
-                sunData = _sunriseRepository.GetByCityAndDate(city.Id, date);
+                sunData = await _sunriseRepository.GetByCityAndDate(city.Id, date);
             }
         
             return Ok(sunData);
@@ -114,12 +114,12 @@ public class SunriseController : ControllerBase
         
     }
     
-    [HttpPatch("Update")]
+    [HttpPatch("Update"), Authorize(Roles="Admin")]
     public async Task<ActionResult> UpdateSunrise(Sunrise sunrise)
     {
         try
         {
-            _sunriseRepository.Update(sunrise);
+            await _sunriseRepository.Update(sunrise);
             return Ok("Sunrise updated successfully");
         }
         catch (Exception e)
@@ -129,12 +129,12 @@ public class SunriseController : ControllerBase
         }
     }
     
-    [HttpPost("Add")]
+    [HttpPost("Add"), Authorize(Roles="Admin")]
     public async Task<ActionResult> AddSunrise(Sunrise sunrise)
     {
         try
         {
-            _sunriseRepository.Add(sunrise);
+            await _sunriseRepository.Add(sunrise);
             return Ok("Sunrise added successfully");
         }
         catch (Exception e)
@@ -144,12 +144,12 @@ public class SunriseController : ControllerBase
         }
     }
     
-    [HttpDelete("Delete")]
-    public async Task<ActionResult> DeleteSunrise(Sunrise sunrise)
+    [HttpDelete("Delete"), Authorize(Roles="Admin")]
+    public async Task<ActionResult> DeleteSunrise(int id)
     {
         try
         {
-            _sunriseRepository.Delete(sunrise);
+            await _sunriseRepository.Delete(id);
             return Ok("Sunrise deleted successfully");
         }
         catch (Exception e)

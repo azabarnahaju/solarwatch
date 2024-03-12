@@ -28,21 +28,22 @@ public class CityRepository : ICityRepository
         return await _dbContext.Cities.FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public async void Add(City city)
+    public async Task Add(City city)
     {
         _dbContext.Cities.Add(city);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async void Update(City city)
+    public async Task Update(City city)
     {
         _dbContext.Cities.Update(city);
         await _dbContext.SaveChangesAsync();
     }
 
-    public async void Delete(City city)
+    public async Task Delete(int id)
     {
-        _dbContext.Cities.Remove(city);
+        var cityToDelete = await GetCity(id);
+        _dbContext.Cities.Remove(cityToDelete);
         await _dbContext.SaveChangesAsync();
     }
 }

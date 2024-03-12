@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SolarWatch.Model;
 using SolarWatch.Services.Repository;
 
@@ -17,12 +18,12 @@ public class CityController : ControllerBase
         _cityRepository = cityRepository;
     }
     
-    [HttpPatch("Update")]
+    [HttpPatch("Update"), Authorize(Roles="Admin")]
     public async Task<ActionResult> UpdateCity(City city)
     {
         try
         {
-            _cityRepository.Update(city);
+            await _cityRepository.Update(city);
             return Ok("City updated successfully");
         }
         catch (Exception e)
@@ -32,12 +33,12 @@ public class CityController : ControllerBase
         }
     }
     
-    [HttpPost("Add")]
+    [HttpPost("Add"), Authorize(Roles="Admin")]
     public async Task<ActionResult> AddCity(City city)
     {
         try
         {
-            _cityRepository.Add(city);
+            await _cityRepository.Add(city);
             return Ok("City added successfully");
         }
         catch (Exception e)
@@ -47,12 +48,12 @@ public class CityController : ControllerBase
         }
     }
     
-    [HttpDelete("Delete")]
-    public async Task<ActionResult> DeleteCity(City city)
+    [HttpDelete("Delete"), Authorize(Roles="Admin")]
+    public async Task<ActionResult> DeleteCity(int id)
     {
         try
         {
-            _cityRepository.Delete(city);
+            await _cityRepository.Delete(id);
             return Ok("City deleted successfully");
         }
         catch (Exception e)

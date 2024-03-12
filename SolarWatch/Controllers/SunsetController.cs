@@ -33,7 +33,7 @@ public class SunsetController : ControllerBase
         _sunsetRepository = sunsetRepository;
     }
     
-    [HttpGet("GetSunset"), Authorize]
+    [HttpGet("GetSunset"), Authorize(Roles="Admin, User")]
     public async Task<ActionResult<string>> GetSunset(string cityName)
     {
         try
@@ -42,7 +42,7 @@ public class SunsetController : ControllerBase
             while (city is null)
             {
                 var cityFromProvider = await GetCity(cityName);
-                _cityRepository.Add(cityFromProvider);
+                await _cityRepository.Add(cityFromProvider);
                 city = await _cityRepository.GetCity(cityFromProvider.Name);
             }
 
@@ -58,7 +58,7 @@ public class SunsetController : ControllerBase
                     Time = sunDataFromProviderFormatted,
                     Date = DateTime.Today
                 };
-                _sunsetRepository.Add(sunsetToAdd);
+                await _sunsetRepository.Add(sunsetToAdd);
                 
                 sunData = _sunsetRepository.GetByCity(city.Id);
             }
@@ -73,7 +73,7 @@ public class SunsetController : ControllerBase
         
     }
     
-    [HttpGet("GetSunsetOnDate"), Authorize]
+    [HttpGet("GetSunsetOnDate"), Authorize(Roles="Admin, User")]
     public async Task<ActionResult<string>> GetSunsetOnDate(string cityName, DateTime date)
     {
         try
@@ -82,11 +82,11 @@ public class SunsetController : ControllerBase
             while (city is null)
             {
                 var cityFromProvider = await GetCity(cityName);
-                _cityRepository.Add(cityFromProvider);
+                await _cityRepository.Add(cityFromProvider);
                 city = await _cityRepository.GetCity(cityFromProvider.Name);
             }
             
-            var sunData = _sunsetRepository.GetByCityAndDate(city.Id, date);
+            var sunData = await _sunsetRepository.GetByCityAndDate(city.Id, date);
             while (sunData is null)
             {
                 var sunDataFromProvider = await _sunDataProvider.GetSunData(city.Lat, city.Lon, date);
@@ -98,9 +98,9 @@ public class SunsetController : ControllerBase
                     Time = sunDataFromProviderFormatted,
                     Date = date
                 };
-                _sunsetRepository.Add(sunsetToAdd);
+                await _sunsetRepository.Add(sunsetToAdd);
                 
-                sunData = _sunsetRepository.GetByCityAndDate(city.Id, date);
+                sunData = await _sunsetRepository.GetByCityAndDate(city.Id, date);
             }
         
             return Ok(sunData);
@@ -113,12 +113,12 @@ public class SunsetController : ControllerBase
         
     }
     
-    [HttpPatch("Update")]
+    [HttpPatch("Update"), Authorize(Roles="Admin")]
     public async Task<ActionResult> UpdateSunset(Sunset sunset)
     {
         try
         {
-            _sunsetRepository.Update(sunset);
+            await _sunsetRepository.Update(sunset);
             return Ok("Sunset updated successfully");
         }
         catch (Exception e)
@@ -128,12 +128,12 @@ public class SunsetController : ControllerBase
         }
     }
     
-    [HttpPost("Add")]
+    [HttpPost("Add"), Authorize(Roles="Admin")]
     public async Task<ActionResult> AddSunset(Sunset sunset)
     {
         try
         {
-            _sunsetRepository.Add(sunset);
+            await _sunsetRepository.Add(sunset);
             return Ok("Sunset added successfully");
         }
         catch (Exception e)
@@ -143,12 +143,12 @@ public class SunsetController : ControllerBase
         }
     }
     
-    [HttpDelete("Delete")]
-    public async Task<ActionResult> DeleteSunset(Sunset sunset)
+    [HttpDelete("Delete"), Authorize(Roles="Admin")]
+    public async Task<ActionResult> DeleteSunset(int id)
     {
         try
         {
-            _sunsetRepository.Delete(sunset);
+            await _sunsetRepository.Delete(id);
             return Ok("Sunset deleted successfully");
         }
         catch (Exception e)

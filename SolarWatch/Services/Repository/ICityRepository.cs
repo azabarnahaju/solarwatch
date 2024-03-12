@@ -7,7 +7,7 @@ public interface ICityRepository
     Task<IEnumerable<City>> GetAll();
     Task<City?> GetCity(string name);
     Task<City?> GetCity(int id);
-    void Add(City city);
-    void Update(City city);
-    void Delete(City city);
+    Task Add(City city);
+    Task Update(City city);
+    Task Delete(int id);
 }

@@ -1,4 +1,5 @@
-﻿using SolarWatch.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SolarWatch.Data;
 using SolarWatch.Model;
 
 namespace SolarWatch.Services.Repository;
@@ -12,41 +13,42 @@ public class SunriseRepository : ISunriseRepository
         _dbContext = dbContext;
     }
     
-    public IEnumerable<SolarMovement> GetAll()
+    public async Task<IEnumerable<SolarMovement>> GetAll()
     {
-        return _dbContext.Sunrises.ToList();
+        return await _dbContext.Sunrises.ToListAsync();
     }
 
-    public SolarMovement? GetByCity(int cityId)
+    public async Task<SolarMovement?> GetByCity(int cityId)
     {
-        return _dbContext.Sunrises.FirstOrDefault(s => s.CityId == cityId);
+        return await _dbContext.Sunrises.FirstOrDefaultAsync(s => s.CityId == cityId);
     }
-
-    public SolarMovement? GetByCityAndDate(int cityId, DateTime date)
+  
+    public async Task<SolarMovement?> GetByCityAndDate(int cityId, DateTime date)
     {
-        return _dbContext.Sunrises.FirstOrDefault(s => s.CityId == cityId && s.Date == date);
+        return await _dbContext.Sunrises.FirstOrDefaultAsync(s => s.CityId == cityId && s.Date == date);
     }
     
-    public SolarMovement? GetById(int id)
+    public async Task<SolarMovement?> GetById(int id)
     {
-        return _dbContext.Sunrises.FirstOrDefault(s => s.Id == id);
+        return await _dbContext.Sunrises.FirstOrDefaultAsync(s => s.Id == id);
     }
 
-    public void Add(SolarMovement sunMovement)
+    public async Task Add(SolarMovement sunMovement)
     {
         _dbContext.Sunrises.Add((Sunrise)sunMovement);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
 
-    public void Update(SolarMovement sunMovement)
+    public async Task Update(SolarMovement sunMovement)
     {
         _dbContext.Sunrises.Update((Sunrise)sunMovement);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
 
-    public void Delete(SolarMovement sunMovement)
+    public async Task Delete(int id)
     {
-        _dbContext.Sunrises.Remove((Sunrise)sunMovement);
-        _dbContext.SaveChanges();
+        var sunriseToDelete = await GetById(id);
+        _dbContext.Sunrises.Remove((Sunrise)sunriseToDelete);
+        await _dbContext.SaveChangesAsync();
     }
 }
