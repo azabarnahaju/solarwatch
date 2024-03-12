@@ -3,50 +3,50 @@ using SolarWatch.Model;
 
 namespace SolarWatch.Services.Repository;
 
-public class SunriseRepository : ISolarMovementRepository
+public class SunriseRepository : ISunriseRepository
 {
+    private readonly SolarWatchContext _dbContext;
+    
+    public SunriseRepository(SolarWatchContext dbContext)
+    {
+        _dbContext = dbContext;
+    }
+    
     public IEnumerable<SolarMovement> GetAll()
     {
-        using var dbContext = new SolarWatchContext();
-        return dbContext.Sunrises.ToList();
+        return _dbContext.Sunrises.ToList();
     }
 
     public SolarMovement? GetByCity(int cityId)
     {
-        using var dbContext = new SolarWatchContext();
-        return dbContext.Sunrises.FirstOrDefault(s => s.CityId == cityId);
+        return _dbContext.Sunrises.FirstOrDefault(s => s.CityId == cityId);
     }
 
     public SolarMovement? GetByCityAndDate(int cityId, DateTime date)
     {
-        using var dbContext = new SolarWatchContext();
-        return dbContext.Sunrises.FirstOrDefault(s => s.CityId == cityId && s.Date == date);
+        return _dbContext.Sunrises.FirstOrDefault(s => s.CityId == cityId && s.Date == date);
     }
     
     public SolarMovement? GetById(int id)
     {
-        using var dbContext = new SolarWatchContext();
-        return dbContext.Sunrises.FirstOrDefault(s => s.Id == id);
+        return _dbContext.Sunrises.FirstOrDefault(s => s.Id == id);
     }
 
     public void Add(SolarMovement sunMovement)
     {
-        using var dbContext = new SolarWatchContext();
-        dbContext.Sunrises.Add((Sunrise)sunMovement);
-        dbContext.SaveChanges();
+        _dbContext.Sunrises.Add((Sunrise)sunMovement);
+        _dbContext.SaveChanges();
     }
 
     public void Update(SolarMovement sunMovement)
     {
-        using var dbContext = new SolarWatchContext();
-        dbContext.Sunrises.Update((Sunrise)sunMovement);
-        dbContext.SaveChanges();
+        _dbContext.Sunrises.Update((Sunrise)sunMovement);
+        _dbContext.SaveChanges();
     }
 
     public void Delete(SolarMovement sunMovement)
     {
-        using var dbContext = new SolarWatchContext();
-        dbContext.Sunrises.Remove((Sunrise)sunMovement);
-        dbContext.SaveChanges();
+        _dbContext.Sunrises.Remove((Sunrise)sunMovement);
+        _dbContext.SaveChanges();
     }
 }

@@ -9,9 +9,7 @@ public class SolarWatchContext : DbContext
     public DbSet<Sunrise> Sunrises { get; set; }
     public DbSet<Sunset> Sunsets { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    public SolarWatchContext(DbContextOptions<SolarWatchContext> options) : base(options)
     {
-        optionsBuilder.UseSqlServer(
-            "Server=localhost,1433;Database=SolarWatch;User Id=sa;Password=DaBaPaWo2024;Encrypt=false;");
     }
 }

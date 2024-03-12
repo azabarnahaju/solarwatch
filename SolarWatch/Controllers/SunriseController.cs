@@ -21,16 +21,17 @@ public class SunriseController : ControllerBase
     private readonly ISunDataProvider _sunDataProvider;
     private readonly IJsonProcessor _jsonProcessor;
     private readonly ICityRepository _cityRepository;
-    private readonly ISolarMovementRepository _sunriseRepository = new SunriseRepository();
+    private readonly ISolarMovementRepository _sunriseRepository;
     
 
-    public SunriseController(ILogger<SunriseController> logger, ICityDataProvider cityDataProvider, ISunDataProvider sunDataProvider, IJsonProcessor jsonProcessor, ICityRepository cityRepository)
+    public SunriseController(ILogger<SunriseController> logger, ICityDataProvider cityDataProvider, ISunDataProvider sunDataProvider, IJsonProcessor jsonProcessor, ICityRepository cityRepository, ISunriseRepository sunriseRepository)
     {
         _logger = logger;
         _cityDataProvider = cityDataProvider;
         _jsonProcessor = jsonProcessor;
         _sunDataProvider = sunDataProvider;
         _cityRepository = cityRepository;
+        _sunriseRepository = sunriseRepository;
     }
     
     [HttpGet("GetSunrise"), Authorize]
