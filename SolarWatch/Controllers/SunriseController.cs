@@ -39,12 +39,12 @@ public class SunriseController : ControllerBase
     {
         try
         {
-            var city = _cityRepository.GetCity(cityName);
+            var city = await _cityRepository.GetCity(cityName);
             while (city is null)
             {
                 var cityFromProvider = await GetCity(cityName);
                 _cityRepository.Add(cityFromProvider);
-                city = _cityRepository.GetCity(cityFromProvider.Name);
+                city = await _cityRepository.GetCity(cityFromProvider.Name);
             }
 
             var sunData = _sunriseRepository.GetByCity(city.Id);
@@ -79,12 +79,12 @@ public class SunriseController : ControllerBase
     {
         try
         {
-            var city = _cityRepository.GetCity(cityName);
+            var city = await _cityRepository.GetCity(cityName);
             while (city is null)
             {
                 var cityFromProvider = await GetCity(cityName);
                 _cityRepository.Add(cityFromProvider);
-                city = _cityRepository.GetCity(cityFromProvider.Name);
+                city = await  _cityRepository.GetCity(cityFromProvider.Name);
             }
             
             var sunData = _sunriseRepository.GetByCityAndDate(city.Id, date);
@@ -113,13 +113,57 @@ public class SunriseController : ControllerBase
         }
         
     }
+    
+    [HttpPatch("Update")]
+    public async Task<ActionResult> UpdateSunrise(Sunrise sunrise)
+    {
+        try
+        {
+            _sunriseRepository.Update(sunrise);
+            return Ok("Sunrise updated successfully");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error updating sunrise data");
+            return NotFound("Error updating sunrise data");
+        }
+    }
+    
+    [HttpPost("Add")]
+    public async Task<ActionResult> AddSunrise(Sunrise sunrise)
+    {
+        try
+        {
+            _sunriseRepository.Add(sunrise);
+            return Ok("Sunrise added successfully");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error adding sunrise data");
+            return NotFound("Error adding sunrise data");
+        }
+    }
+    
+    [HttpDelete("Delete")]
+    public async Task<ActionResult> DeleteSunrise(Sunrise sunrise)
+    {
+        try
+        {
+            _sunriseRepository.Delete(sunrise);
+            return Ok("Sunrise deleted successfully");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error deleting sunrise data");
+            return NotFound("Error deleting sunrise data");
+        }
+    }
 
     private async Task<City> GetCity(string cityName)
     {
         try
         {
             var cityData = await _cityDataProvider.GetCity(cityName);
-        
             return _jsonProcessor.ProcessCityJsonResponse(cityData);
         }
         catch (Exception e)

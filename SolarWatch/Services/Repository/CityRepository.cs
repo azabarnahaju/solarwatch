@@ -1,4 +1,5 @@
-﻿using SolarWatch.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using SolarWatch.Data;
 using SolarWatch.Model;
 
 namespace SolarWatch.Services.Repository;
@@ -12,36 +13,36 @@ public class CityRepository : ICityRepository
         _dbContext = dbContext;
     }
     
-    public IEnumerable<City> GetAll()
+    public async Task<IEnumerable<City>> GetAll()
     {
-        return _dbContext.Cities.ToList();
+        return await _dbContext.Cities.ToListAsync();
     }
 
-    public City? GetCity(string name)
+    public async Task<City?> GetCity(string name)
     {
-        return _dbContext.Cities.FirstOrDefault(c => c.Name.ToLower() == name.ToLower());
+        return await _dbContext.Cities.FirstOrDefaultAsync(c => c.Name.ToLower() == name.ToLower());
     }
     
-    public City? GetCity(int id)
+    public async Task<City?> GetCity(int id)
     {
-        return _dbContext.Cities.FirstOrDefault(c => c.Id == id);
+        return await _dbContext.Cities.FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public void Add(City city)
+    public async void Add(City city)
     {
         _dbContext.Cities.Add(city);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
 
-    public void Update(City city)
+    public async void Update(City city)
     {
         _dbContext.Cities.Update(city);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
 
-    public void Delete(City city)
+    public async void Delete(City city)
     {
         _dbContext.Cities.Remove(city);
-        _dbContext.SaveChanges();
+        await _dbContext.SaveChangesAsync();
     }
 }

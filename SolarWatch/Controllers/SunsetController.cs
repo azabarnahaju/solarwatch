@@ -38,12 +38,12 @@ public class SunsetController : ControllerBase
     {
         try
         {
-            var city = _cityRepository.GetCity(cityName);
+            var city = await _cityRepository.GetCity(cityName);
             while (city is null)
             {
                 var cityFromProvider = await GetCity(cityName);
                 _cityRepository.Add(cityFromProvider);
-                city = _cityRepository.GetCity(cityFromProvider.Name);
+                city = await _cityRepository.GetCity(cityFromProvider.Name);
             }
 
             var sunData = _sunsetRepository.GetByCity(city.Id);
@@ -78,12 +78,12 @@ public class SunsetController : ControllerBase
     {
         try
         {
-            var city = _cityRepository.GetCity(cityName);
+            var city = await _cityRepository.GetCity(cityName);
             while (city is null)
             {
                 var cityFromProvider = await GetCity(cityName);
                 _cityRepository.Add(cityFromProvider);
-                city = _cityRepository.GetCity(cityFromProvider.Name);
+                city = await _cityRepository.GetCity(cityFromProvider.Name);
             }
             
             var sunData = _sunsetRepository.GetByCityAndDate(city.Id, date);
@@ -111,6 +111,51 @@ public class SunsetController : ControllerBase
             return NotFound("Error getting sunset data");
         }
         
+    }
+    
+    [HttpPatch("Update")]
+    public async Task<ActionResult> UpdateSunset(Sunset sunset)
+    {
+        try
+        {
+            _sunsetRepository.Update(sunset);
+            return Ok("Sunset updated successfully");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error updating sunset data");
+            return NotFound("Error updating sunset data");
+        }
+    }
+    
+    [HttpPost("Add")]
+    public async Task<ActionResult> AddSunset(Sunset sunset)
+    {
+        try
+        {
+            _sunsetRepository.Add(sunset);
+            return Ok("Sunset added successfully");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error adding sunset data");
+            return NotFound("Error adding sunset data");
+        }
+    }
+    
+    [HttpDelete("Delete")]
+    public async Task<ActionResult> DeleteSunset(Sunset sunset)
+    {
+        try
+        {
+            _sunsetRepository.Delete(sunset);
+            return Ok("Sunset deleted successfully");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error deleting sunset data");
+            return NotFound("Error deleting sunset data");
+        }
     }
     
     private async Task<City> GetCity(string cityName)
