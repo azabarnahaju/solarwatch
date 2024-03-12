@@ -5,6 +5,7 @@ using SolarWatch;
 using SolarWatch.Controllers;
 using SolarWatch.Services.CityData;
 using SolarWatch.Services.JsonProcessing;
+using SolarWatch.Services.Repository;
 using SolarWatch.Services.SunData;
 
 namespace SolarWatchTest;
@@ -16,6 +17,7 @@ public class SunsetControllerTest
     private Mock<ISunDataProvider> _sunDataProviderMock;
     private Mock<ICityDataProvider> _cityDataProviderMock;
     private Mock<IJsonProcessor> _jsonProcessorMock;
+    private Mock<ICityRepository> _cityRepository;
     private SunsetController _controller;
     
     [SetUp]
@@ -26,7 +28,7 @@ public class SunsetControllerTest
         _cityDataProviderMock = new Mock<ICityDataProvider>();
         _jsonProcessorMock = new Mock<IJsonProcessor>();
         _controller =
-            new SunsetController(_loggerMock.Object, _cityDataProviderMock.Object, _sunDataProviderMock.Object, _jsonProcessorMock.Object);
+            new SunsetController(_loggerMock.Object, _cityDataProviderMock.Object, _sunDataProviderMock.Object, _jsonProcessorMock.Object, _cityRepository.Object);
     }
     
     [Test]
