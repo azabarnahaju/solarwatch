@@ -18,7 +18,6 @@ namespace SolarWatch
 {
     class Program
     {
-        public delegate ISolarMovementRepository ServiceResolver(string key);
         static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -28,9 +27,11 @@ namespace SolarWatch
                 { "validIssuer", builder.Configuration["JwtSettings:ValidIssuer"] },
                 { "validAudience", builder.Configuration["JwtSettings:validAudience"] },
                 { "issuerSigningKey", builder.Configuration["JwtSettings:IssuerSigningKey"] },
-                { "dbConnectionString", builder.Configuration["Database:ConnectionString"]}
+                { "dbConnectionString", builder.Configuration["Database:ConnectionString"] },
+                { "adminEmail", builder.Configuration["AdminInfo:adminEmail"] }, 
+                { "adminPassword", builder.Configuration["AdminInfo:adminPassword"] }
             };
-
+            
             foreach (var secret in userSecrets)
             {
                 if (secret.Value is null)
@@ -46,6 +47,19 @@ namespace SolarWatch
             AddIdentity();
             
             var app = builder.Build();
+            using var scope = app.Services.CreateScope();
+            var authenticationSeeder = scope.ServiceProvider.GetRequiredService<AuthenticationSeeder>();
+
+            if (authenticationSeeder is not null)
+            {
+                Console.WriteLine("AuthenticationSeeder retrieved successfully.");
+                authenticationSeeder.AddRoles();
+                authenticationSeeder.AddAdmin();
+            }
+            else
+            {
+                Console.WriteLine("Error: AuthenticationSeeder could not be found.");
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -77,10 +91,23 @@ namespace SolarWatch
                 builder.Services.AddTransient<ICityRepository, CityRepository>();
                 builder.Services.AddTransient<ISunsetRepository, SunsetRepository>();
                 builder.Services.AddTransient<ISunriseRepository, SunriseRepository>();
-            
                 builder.Services.AddScoped<IAuthService, AuthService>();
                 builder.Services.AddScoped<ITokenService>(provider =>
                     new TokenService(userSecrets["validIssuer"], userSecrets["validAudience"], userSecrets["issuerSigningKey"]));
+                builder.Services.AddScoped<AuthenticationSeeder>(provider =>
+                {
+                    var roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
+                    var userManager = provider.GetRequiredService<UserManager<IdentityUser>>();
+            
+                    // Fetch adminInfo from configuration or any other source
+                    var adminInfo = new Dictionary<string, string>
+                    {
+                        {"adminEmail", userSecrets["adminEmail"]},
+                        {"adminPassword", userSecrets["adminPassword"]}
+                    };
+
+                    return new AuthenticationSeeder(roleManager, userManager, adminInfo);
+                });
             }
 
             void ConfigureSwagger()
@@ -155,6 +182,7 @@ namespace SolarWatch
                         options.Password.RequireUppercase = true;
                         options.Password.RequireLowercase = true;
                     })
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<UsersContext>();
             }
         }
