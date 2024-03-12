@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using SolarWatch;
 using SolarWatch.Data;
@@ -39,6 +40,19 @@ namespace SolarWatch
                         ),
                     };
                 });
+            
+            builder.Services
+                .AddIdentityCore<IdentityUser>(options =>
+                {
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.User.RequireUniqueEmail = true;
+                    options.Password.RequireDigit = true;
+                    options.Password.RequiredLength = 6;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequireLowercase = true;
+                })
+                .AddEntityFrameworkStores<UsersContext>();
             
             // Add services to the container.
             builder.Services.AddControllers();
