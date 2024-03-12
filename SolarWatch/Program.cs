@@ -6,6 +6,7 @@ using SolarWatch;
 using SolarWatch.Data;
 using SolarWatch.Model.Enums;
 using SolarWatch.Services;
+using SolarWatch.Services.Authentication;
 using SolarWatch.Services.CityData;
 using SolarWatch.Services.JsonProcessing;
 using SolarWatch.Services.Repository;
@@ -78,6 +79,7 @@ namespace SolarWatch
                 }
             });
             builder.Services.AddDbContext<UsersContext>();
+            builder.Services.AddScoped<IAuthService, AuthService>();
             
             var app = builder.Build();
 
