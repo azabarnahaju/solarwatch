@@ -17,6 +17,7 @@ public class SunriseControllerTest
     private Mock<IJsonProcessor> _jsonProcessorMock;
     private Mock<ICityRepository> _cityRepository;
     private SunriseController _controller;
+    private Mock<ISunriseRepository> _sunriseRepository;
     
     [SetUp]
     public void SetUp()
@@ -26,8 +27,9 @@ public class SunriseControllerTest
         _cityDataProviderMock = new Mock<ICityDataProvider>();
         _jsonProcessorMock = new Mock<IJsonProcessor>();
         _cityRepository = new Mock<ICityRepository>();
+        _sunriseRepository = new Mock<ISunriseRepository>();
         _controller =
-            new SunriseController(_loggerMock.Object, _cityDataProviderMock.Object, _sunDataProviderMock.Object, _jsonProcessorMock.Object, _cityRepository.Object);
+            new SunriseController(_loggerMock.Object, _cityDataProviderMock.Object, _sunDataProviderMock.Object, _jsonProcessorMock.Object, _cityRepository.Object, _sunriseRepository.Object);
     }
     
     [Test]
