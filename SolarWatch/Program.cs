@@ -67,7 +67,9 @@ namespace SolarWatch
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            
+            app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:5173"));
+            
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
@@ -82,6 +84,7 @@ namespace SolarWatch
 
             void AddServices()
             {
+                builder.Services.AddCors();
                 builder.Services.AddControllers();
                 builder.Services.AddEndpointsApiExplorer();
             
