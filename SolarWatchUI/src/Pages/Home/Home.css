@@ -1,0 +1,71 @@
+.img-container {
+  margin-top: 0;
+}
+
+.dot-image {
+  height: 60vh;
+  width: auto;
+  position: relative;
+  top: 9em;
+  opacity: 0.2;
+  transition: 1s ease-in-out;
+}
+
+.home-title {
+  font-size: 5vw;
+  position: relative;
+  top: -1.7em;
+  color: #9f8bff;
+  font-family: "Red Rose", serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.dot-image:hover {
+  transform: scale(1.2);
+  transition: 0.5s ease-in-out;
+  opacity: 0.5;
+}
+
+.auth-btn {
+  color: white;
+  font-family: "Gruppo", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.2rem;
+  font-style: normal;
+  border: 2px solid #343CFF;
+  background-color: transparent;
+  border-radius: 1rem;
+  padding: 1em;
+  padding-left: 2.5em;
+  padding-right: 2.5em;
+  transition: 0.3s ease-in-out;
+}
+
+.solar-data-btn {
+  color: white;
+  font-family: "Gruppo", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.2rem;
+  font-style: normal;
+  border: 2px solid #9F8BFF;
+  background-color: #343CFF;
+  border-radius: 1rem;
+  padding: 1em;
+  padding-left: 2.5em;
+  padding-right: 2.5em;
+  transition: 0.3s ease-in-out;
+}
+
+.auth-btn:hover, .solar-data-btn:hover {
+  background-color: #9F8BFF;
+  color: #0D0149;
+  transform: scale(1.15);
+  transition: 0.3s ease-in-out;
+}
+
+.btn-container {
+  margin-left: 18rem;
+  margin-right: 18rem;
+}

@@ -1,0 +1,68 @@
+.sun-data-content {
+  margin-top: 20vh;
+}
+
+.sun-data-container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 1em;
+  border-radius: 1em;
+  margin-right: 18vw;
+  color: #efecff;
+}
+
+#solar-movement-form {
+  width: 50vw;
+}
+
+.sun-form-label {
+  color: #efecff;
+}
+
+.sun-form-input {
+  background-color: #efecff;
+  width: 15vw;
+  margin-bottom: 2em;
+  margin-top: 0.3em;
+}
+
+.solar-form-btn {
+  color: white;
+  font-family: "Gruppo", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.2rem;
+  font-style: normal;
+  border: 2px solid #343cff;
+  background-color: transparent;
+  border-radius: 1rem;
+  padding: 0.5em;
+  padding-left: 1.75em;
+  padding-right: 1.75em;
+}
+
+.solar-form-btn:hover {
+  background-color: #9f8bff;
+  color: #0d0149;
+}
+
+.nav-btn {
+  color: white;
+  font-family: "Gruppo", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.2rem;
+  font-style: normal;
+  border: 2px solid #9f8bff;
+  background-color: #343cff;
+  border-radius: 1rem;
+  padding: 0.5em;
+  padding-left: 1.75em;
+  padding-right: 1.75em;
+  transition: 0.3s ease-in-out;
+}
+
+.nav-btn:hover {
+  background-color: #9f8bff;
+  color: #0d0149;
+  transition: 0.3s ease-in-out;
+}

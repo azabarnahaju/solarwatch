@@ -1,0 +1,29 @@
+.reg-form-label{
+    color: #EFECFF;
+}
+
+.reg-form-input {
+    background-color: #EFECFF;
+    width: 15vw;
+    margin-bottom: 2em;
+    margin-top: 0.3em;
+}
+
+.reg-form-btn {
+  color: white;
+  font-family: "Gruppo", sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.2rem;
+  font-style: normal;
+  border: 2px solid #343CFF;
+  background-color: transparent;
+  border-radius: 1rem;
+  padding: 0.5em;
+  padding-left: 1.75em;
+  padding-right: 1.75em;
+}
+
+.reg-form-btn:hover {
+  background-color: #9F8BFF;
+  color: #0D0149;
+}
