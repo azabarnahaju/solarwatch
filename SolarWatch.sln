@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWatch", "SolarWatch\So
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWatchTest", "SolarWatchTest\SolarWatchTest.csproj", "{0CBA4A76-AAC0-4567-A044-63E701249023}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SolarWatch.IntegrationTests", "SolarWatch.IntegrationTests\SolarWatch.IntegrationTests.csproj", "{DD4BEF97-26A5-408E-A5D2-7DFD2587EE2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{0CBA4A76-AAC0-4567-A044-63E701249023}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0CBA4A76-AAC0-4567-A044-63E701249023}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0CBA4A76-AAC0-4567-A044-63E701249023}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD4BEF97-26A5-408E-A5D2-7DFD2587EE2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD4BEF97-26A5-408E-A5D2-7DFD2587EE2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD4BEF97-26A5-408E-A5D2-7DFD2587EE2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD4BEF97-26A5-408E-A5D2-7DFD2587EE2F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

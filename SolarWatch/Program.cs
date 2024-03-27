@@ -16,7 +16,7 @@ using SolarWatch.Services.SunData;
 
 namespace SolarWatch
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
