@@ -53,7 +53,7 @@ public class SolarWatchWebApplicationFactory<Program> : WebApplicationFactory<Pr
                     };
                     options.TokenValidationParameters.ValidIssuer = JwtTokenProvider.Issuer;
                     options.TokenValidationParameters.ValidAudience = JwtTokenProvider.Issuer;
-                    options.Configuration.SigningKeys.Add(JwtTokenProvider.SecurityKey);
+                    options.TokenValidationParameters.IssuerSigningKey = JwtTokenProvider.SecurityKey;
                 }
             );
             
