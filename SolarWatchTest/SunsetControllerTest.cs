@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using SolarWatch;
 using SolarWatch.Controllers;
+using SolarWatch.Model;
 using SolarWatch.Services.CityData;
 using SolarWatch.Services.JsonProcessing;
 using SolarWatch.Services.Repository;
@@ -17,9 +18,9 @@ public class SunsetControllerTest
     private Mock<ISunDataProvider> _sunDataProviderMock;
     private Mock<ICityDataProvider> _cityDataProviderMock;
     private Mock<IJsonProcessor> _jsonProcessorMock;
-    private Mock<ICityRepository> _cityRepository;
+    private Mock<ICityRepository> _cityRepositoryMock;
     private SunsetController _controller;
-    private Mock<ISunsetRepository> _sunsetRepository;
+    private Mock<ISunsetRepository> _sunsetRepositoryMock;
     
     [SetUp]
     public void SetUp()
@@ -28,16 +29,16 @@ public class SunsetControllerTest
         _sunDataProviderMock = new Mock<ISunDataProvider>();
         _cityDataProviderMock = new Mock<ICityDataProvider>();
         _jsonProcessorMock = new Mock<IJsonProcessor>();
-        _sunsetRepository = new Mock<ISunsetRepository>();
+        _sunsetRepositoryMock = new Mock<ISunsetRepository>();
+        _cityRepositoryMock = new Mock<ICityRepository>();
         _controller =
-            new SunsetController(_loggerMock.Object, _cityDataProviderMock.Object, _sunDataProviderMock.Object, _jsonProcessorMock.Object, _cityRepository.Object, _sunsetRepository.Object);
+            new SunsetController(_loggerMock.Object, _cityDataProviderMock.Object, _sunDataProviderMock.Object, _jsonProcessorMock.Object, _cityRepositoryMock.Object, _sunsetRepositoryMock.Object);
     }
     
     [Test]
     public async Task GetSunset_ReturnsNotFoundResultIfCityDataProviderFails()
     {
         // Arrange
-        var cityData = "[]";
         _cityDataProviderMock.Setup(x => x.GetCity(It.IsAny<string>()))
             .Throws(new Exception());
         
@@ -52,7 +53,6 @@ public class SunsetControllerTest
     public async Task GetSunset_ReturnsNotFoundResultIfSunDataProviderFails()
     {
         // Arrange
-        var sunData = "{}";
         _sunDataProviderMock.Setup(x => x.GetSunData(It.IsAny<double>(), It.IsAny<double>()));
 
         // Act
@@ -65,9 +65,13 @@ public class SunsetControllerTest
     [Test]
     public async Task GetSunset_ReturnsOkResultIfCityAndSunDataAreValid()
     {
+        // Arrange
+        _cityRepositoryMock.Setup(x => x.GetCity(It.IsAny<string>())).ReturnsAsync(new City());
+        _sunsetRepositoryMock.Setup(x => x.GetByCity(It.IsAny<int>())).ReturnsAsync(new Sunrise());
+        _sunDataProviderMock.Setup(x => x.GetSunData(It.IsAny<double>(), It.IsAny<double>())).ReturnsAsync("");
         
         // Act
-        var result = await _controller.GetSunset("budapest");
+        var result = await _controller.GetSunset("TestCity");
         
         // Assert
         Assert.IsInstanceOf(typeof(OkObjectResult), result.Result);

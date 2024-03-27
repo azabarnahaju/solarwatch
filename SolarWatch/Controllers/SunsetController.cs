@@ -46,7 +46,7 @@ public class SunsetController : ControllerBase
                 city = await _cityRepository.GetCity(cityFromProvider.Name);
             }
 
-            var sunData = _sunsetRepository.GetByCity(city.Id);
+            var sunData = await _sunsetRepository.GetByCity(city.Id);
             while (sunData is null)
             {
                 var sunDataFromProvider = await _sunDataProvider.GetSunData(city.Lat, city.Lon);
@@ -60,7 +60,7 @@ public class SunsetController : ControllerBase
                 };
                 await _sunsetRepository.Add(sunsetToAdd);
                 
-                sunData = _sunsetRepository.GetByCity(city.Id);
+                sunData = await _sunsetRepository.GetByCity(city.Id);
             }
             
             return Ok(sunData);
