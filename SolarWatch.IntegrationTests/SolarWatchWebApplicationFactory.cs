@@ -24,6 +24,7 @@ public class SolarWatchWebApplicationFactory<TProgram> : WebApplicationFactory<T
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "test");
         builder.ConfigureServices(services =>
         {
             // databases

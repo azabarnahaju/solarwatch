@@ -21,7 +21,7 @@ namespace SolarWatch
         static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            
+            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
             var userSecrets = new Dictionary<string, string>
             {
                 { "validIssuer", builder.Configuration["JwtSettings:ValidIssuer"] },
@@ -31,6 +31,11 @@ namespace SolarWatch
                 { "adminEmail", builder.Configuration["AdminInfo:adminEmail"] }, 
                 { "adminPassword", builder.Configuration["AdminInfo:adminPassword"] }
             };
+
+            if (environment == "test")
+            {
+                userSecrets["issuerSigningKey"] = "This_is_a_super_secure_key_and_you_know_it";
+            }
             
             foreach (var secret in userSecrets)
             {
