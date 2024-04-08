@@ -7,16 +7,10 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Moq;
 using SolarWatch.Data;
 using SolarWatch.IntegrationTests.JwtAuthenticationTest;
-using SolarWatch.IntegrationTests.TestServices;
 using SolarWatch.Model;
 using SolarWatch.Services.Authentication;
-using SolarWatch.Services.CityData;
-using SolarWatch.Services.JsonProcessing;
-using SolarWatch.Services.Repository;
-using SolarWatch.Services.SunData;
 
 namespace SolarWatch.IntegrationTests;
 
