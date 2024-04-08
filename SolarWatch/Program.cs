@@ -32,15 +32,17 @@ namespace SolarWatch
                 { "adminPassword", builder.Configuration["AdminInfo:adminPassword"] }
             };
 
-            if (environment == "test")
-            {
-                userSecrets["issuerSigningKey"] = "This_is_a_super_secure_key_and_you_know_it";
-                userSecrets["dbConnectionString"] = "TEST";
-            }
+            // if (environment == "test")
+            // {
+            //     userSecrets["issuerSigningKey"] = "This_is_a_super_secure_key_and_you_know_it";
+            //     userSecrets["dbConnectionString"] = "TEST";
+            //     userSecrets["adminEmail"] = "TEST";
+            //     userSecrets["adminPassword"] = "TEST";
+            // }
             
             foreach (var secret in userSecrets)
             {
-                if (secret.Value is null)
+                if (environment != "test" && secret.Value is null)
                 {
                     throw new Exception($"{secret.Key} is missing.");
                 }
