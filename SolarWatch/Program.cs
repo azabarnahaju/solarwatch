@@ -35,6 +35,7 @@ namespace SolarWatch
             if (environment == "test")
             {
                 userSecrets["issuerSigningKey"] = "This_is_a_super_secure_key_and_you_know_it";
+                userSecrets["dbConnectionString"] = "TEST";
             }
             
             foreach (var secret in userSecrets)
