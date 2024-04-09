@@ -92,10 +92,16 @@ public class SolarWatchWebApplicationFactory<TProgram> : WebApplicationFactory<T
 
         context.Cities.Add(new City
             { Country = "HU", Lat = 47.4979937, Lon = 19.0403594, Name = "Budapest", State = "", Id = 1 });
+        context.Cities.Add(new City
+            { Country = "HU2", Lat = 47.4979937, Lon = 19.0403594, Name = "Budapest2", State = "", Id = 2 });
         context.Sunrises.Add(new Sunrise
             { Id = 1, Date = new DateTime(2024, 04, 06), Time = "4:09:54 AM", CityId = 1 });
         context.Sunsets.Add(new Sunset
             { Id = 1, Date = new DateTime(2024, 04, 06), Time = "5:22:19 PM", CityId = 1 });
+        context.Sunrises.Add(new Sunrise
+            { Id = 2, Date = new DateTime(2024, 04, 06), Time = "4:09:54 AM", CityId = 1 });
+        context.Sunsets.Add(new Sunset
+            { Id = 2, Date = new DateTime(2024, 04, 06), Time = "5:22:19 PM", CityId = 1 });
 
         await context.SaveChangesAsync();
     }

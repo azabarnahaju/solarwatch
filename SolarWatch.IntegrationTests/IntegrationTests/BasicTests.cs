@@ -174,4 +174,112 @@ public class BasicTests : IClassFixture<SolarWatchWebApplicationFactory<Program>
         responseUpdate.StatusCode.Should().Be(HttpStatusCode.Forbidden);
         responseAdd.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
+
+    [Fact]
+    public async Task Should_Allow_Admin_Delete_City()
+    {
+        var token = new TestJwtToken().WithRole("Admin").WithName("Admin").Build();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var id = 2;
+        var response = await _client.DeleteAsync($"/City/Delete?id={id}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+    
+    [Fact]
+    public async Task Should_Not_Allow_User_Delete_City()
+    {
+        var token = new TestJwtToken().WithRole("User").WithName("testuser").Build();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var id = 1;
+        var response = await _client.DeleteAsync($"/City/Delete?id={id}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+    
+    [Fact]
+    public async Task Should_Allow_Admin_Delete_Sunrise()
+    {
+        var token = new TestJwtToken().WithRole("Admin").WithName("Admin").Build();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var id = 2;
+        var response = await _client.DeleteAsync($"/Sunrise/Delete?id={id}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+    
+    [Fact]
+    public async Task Should_Not_Allow_User_Delete_Sunrise()
+    {
+        var token = new TestJwtToken().WithRole("User").WithName("testuser").Build();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var id = 1;
+        var response = await _client.DeleteAsync($"/Sunrise/Delete?id={id}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+    
+    [Fact]
+    public async Task Should_Allow_Admin_Delete_Sunset()
+    {
+        var token = new TestJwtToken().WithRole("Admin").WithName("Admin").Build();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var id = 2;
+        var response = await _client.DeleteAsync($"/Sunset/Delete?id={id}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+    }
+    
+    [Fact]
+    public async Task Should_Not_Allow_User_Delete_Sunset()
+    {
+        var token = new TestJwtToken().WithRole("User").WithName("testuser").Build();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var id = 1;
+        var response = await _client.DeleteAsync($"/Sunset/Delete?id={id}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
+    }
+    
+    [Fact] 
+    public async Task Should_Return_NotFound_Trying_To_Delete_Nonexistent_City()
+    {
+        var token = new TestJwtToken().WithRole("Admin").WithName("Admin").Build();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var id = 100;
+        var response = await _client.DeleteAsync($"/City/Delete?id={id}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+    
+    [Fact] 
+    public async Task Should_Return_NotFound_Trying_To_Delete_Nonexistent_Sunset()
+    {
+        var token = new TestJwtToken().WithRole("Admin").WithName("Admin").Build();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var id = 100;
+        var response = await _client.DeleteAsync($"/Sunset/Delete?id={id}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
+    
+    [Fact] 
+    public async Task Should_Return_NotFound_Trying_To_Delete_Nonexistent_Sunrise()
+    {
+        var token = new TestJwtToken().WithRole("Admin").WithName("Admin").Build();
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var id = 100;
+        var response = await _client.DeleteAsync($"/Sunrise/Delete?id={id}");
+
+        response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+    }
 }
