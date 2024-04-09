@@ -11,6 +11,7 @@ using SolarWatch.Services;
 using SolarWatch.Services.Authentication;
 using SolarWatch.Services.CityData;
 using SolarWatch.Services.JsonProcessing;
+using SolarWatch.Services.MoonData;
 using SolarWatch.Services.Repository;
 using SolarWatch.Services.SunData;
 
@@ -95,11 +96,13 @@ namespace SolarWatch
                 builder.Services.AddEndpointsApiExplorer();
             
                 builder.Services.AddTransient<ICityDataProvider, CityDataProvider>();
+                builder.Services.AddTransient<IMoonDataProvider, MoonDataProvider>();
                 builder.Services.AddTransient<ISunDataProvider, SunDataProvider>();
                 builder.Services.AddTransient<IJsonProcessor, JsonProcessor>();
                 builder.Services.AddTransient<ICityRepository, CityRepository>();
                 builder.Services.AddTransient<ISunsetRepository, SunsetRepository>();
                 builder.Services.AddTransient<ISunriseRepository, SunriseRepository>();
+                builder.Services.AddTransient<IMoonRepository, MoonRepository>();
                 builder.Services.AddScoped<IAuthService, AuthService>();
                 builder.Services.AddScoped<ITokenService>(provider =>
                     new TokenService(userSecrets["validIssuer"], userSecrets["validAudience"], userSecrets["issuerSigningKey"]));

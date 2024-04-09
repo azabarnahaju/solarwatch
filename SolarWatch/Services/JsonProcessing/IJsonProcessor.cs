@@ -1,7 +1,7 @@
-﻿using SolarWatch.Model;
-using SolarWatch.Model.Enums;
+﻿namespace SolarWatch.Services.JsonProcessing;
 
-namespace SolarWatch.Services.JsonProcessing;
+using Model;
+using Model.Enums;
 
 public interface IJsonProcessor
 {
@@ -9,4 +9,5 @@ public interface IJsonProcessor
 
     string ProcessSunJsonResponse(string sunData, SunMovement sunMovement);
 
+    MoonData ProcessMoonJsonResponse(string moonData, int cityId);
 }

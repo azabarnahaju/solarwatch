@@ -33,6 +33,11 @@ const SolarMovement = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (city === "" || city === null) {
+      console.log("Missing city")
+      return;
+    }
+
     setSolarData({ sunMovement: sunMovement, date: date, city: city })
 
     const currentDate = getTodayFormatted();
