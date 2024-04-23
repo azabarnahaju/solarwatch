@@ -28,11 +28,11 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
       env:
-        JwtSettings__ValidIssuer: ${{ secrets.JwtSettings_ValidIssuer }}
-        JwtSettings__ValidAudience: ${{ secrets.JwtSettings_ValidAudience }}
-        JwtSettings__IssuerSigningKey: ${{ secrets.JwtSettings_IssuerSigningKey }}
-        AdminInfo__AdminPassword: ${{ secrets.AdminInfo_AdminPassword }}
-        AdminInfo__AdminEmail: ${{ secrets.AdminInfo_AdminEmail }}
-        Database__ConnectionString: ${{ secrets.Database_ConnectionString }}
-        ApiKey__OpenWeatherAPI: ${{ secrets.ApiKey_OpenWeatherAPI }}
-        ApiKey__StormGlass: ${{ secrets.ApiKey_StormGlass }}
+        JwtSettings:ValidIssuer: ${{ secrets.JwtSettings_ValidIssuer }}
+        JwtSettings:ValidAudience: ${{ secrets.JwtSettings_ValidAudience }}
+        JwtSettings:IssuerSigningKey: ${{ secrets.JwtSettings_IssuerSigningKey }}
+        AdminInfo:AdminPassword: ${{ secrets.AdminInfo_AdminPassword }}
+        AdminInfo:AdminEmail: ${{ secrets.AdminInfo_AdminEmail }}
+        Database:ConnectionString: ${{ secrets.Database_ConnectionString }}
+        ApiKey:OpenWeatherAPI: ${{ secrets.ApiKey_OpenWeatherAPI }}
+        ApiKey:StormGlass: ${{ secrets.ApiKey_StormGlass }}
