@@ -34,5 +34,5 @@ jobs:
         AdminInfo_AdminPassword: ${{ secrets.ADMININFO_ADMINPASSWORD }}
         AdminInfo_AdminEmail: ${{ secrets.ADMININFO_ADMINEMAIL }}
         Database_ConnectionString: ${{ secrets.DATABASE_CONNECTIONSTRING }}
-        ApiKeys_OpenWeatherAPI: ${{ secrets.APIKEY_OPENWEATHERAPI }}
-        ApiKeys_StormGlass: ${{ secrets.APIKEY_STORMGLASS }}
+        ApiKeys_OpenWeatherAPI: ${{ secrets.APIKEYS_OPENWEATHERAPI }}
+        ApiKeys_StormGlass: ${{ secrets.APIKEYS_STORMGLASS }}
