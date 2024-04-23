@@ -6,13 +6,13 @@ public class AuthenticationSeeder
 {
     private RoleManager<IdentityRole> roleManager;
     private UserManager<IdentityUser> userManager;
-    private Dictionary<string, string> adminInfo;
+    private IConfiguration config;
 
-    public AuthenticationSeeder(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, Dictionary<string, string> adminInfo)
+    public AuthenticationSeeder(RoleManager<IdentityRole> roleManager, UserManager<IdentityUser> userManager, IConfiguration config)
     {
         this.roleManager = roleManager;
         this.userManager = userManager;
-        this.adminInfo = adminInfo;
+        this.config = config;
     }
 
     public void AddRoles()
@@ -32,16 +32,21 @@ public class AuthenticationSeeder
     
     private async Task CreateRole(string role)
     {
-        await roleManager.CreateAsync(new IdentityRole(role));
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+        
     }
 
     private async Task CreateAdminIfNotExists()
     {
-        var adminInDb = await userManager.FindByEmailAsync("admin@admin.com");
+        var adminInDb = await userManager.FindByEmailAsync(config["AdminInfo:AdminEmail"]);
         if (adminInDb is null)
         {
-            var admin = new IdentityUser { UserName = "admin", Email = adminInfo["adminEmail"] };
-            var adminCreated = await userManager.CreateAsync(admin, adminInfo["adminPassword"]);
+            Console.WriteLine("admin does not exist");
+            var admin = new IdentityUser { UserName = "admin", Email = config["AdminInfo:AdminEmail"] };
+            var adminCreated = await userManager.CreateAsync(admin, config["AdminInfo:AdminPassword"]);
 
             if (adminCreated.Succeeded)
             {

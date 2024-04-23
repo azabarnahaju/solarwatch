@@ -18,7 +18,6 @@ public class SolarWatchWebApplicationFactory<TProgram> : WebApplicationFactory<T
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "test");
         builder.ConfigureServices(services =>
         {
             // databases
@@ -53,23 +52,6 @@ public class SolarWatchWebApplicationFactory<TProgram> : WebApplicationFactory<T
                     options.TokenValidationParameters.IssuerSigningKey = JwtTokenProvider.SecurityKey;
                 }
             );
-            
-            // other services
-            var authenticationSeederDescriptor =
-                services.SingleOrDefault(d => d.ServiceType == typeof(AuthenticationSeeder));
-            if (authenticationSeederDescriptor != null) services.Remove(authenticationSeederDescriptor);
-            services.AddScoped<AuthenticationSeeder>(provider =>
-            {
-                var roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
-                var userManager = provider.GetRequiredService<UserManager<IdentityUser>>();
-                
-                var testAdminInfo = new Dictionary<string, string>
-                {
-                    {"adminEmail", "test@admin.com"},
-                    {"adminPassword", "testAdminPassword"}
-                };
-                return new AuthenticationSeeder(roleManager, userManager, testAdminInfo);
-            });
             
             var tokenServiceDescriptor =
                 services.SingleOrDefault(d => d.ServiceType == typeof(ITokenService));

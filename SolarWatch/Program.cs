@@ -4,10 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using SolarWatch;
 using SolarWatch.Data;
-using SolarWatch.Model.Enums;
-using SolarWatch.Services;
 using SolarWatch.Services.Authentication;
 using SolarWatch.Services.CityData;
 using SolarWatch.Services.JsonProcessing;
@@ -22,30 +19,7 @@ namespace SolarWatch
         static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-            var userSecrets = new Dictionary<string, string>
-            {
-                { "validIssuer", builder.Configuration["JwtSettings:ValidIssuer"] },
-                { "validAudience", builder.Configuration["JwtSettings:validAudience"] },
-                { "issuerSigningKey", builder.Configuration["JwtSettings:IssuerSigningKey"] },
-                { "dbConnectionString", builder.Configuration["Database:ConnectionString"] },
-                { "adminEmail", builder.Configuration["AdminInfo:adminEmail"] }, 
-                { "adminPassword", builder.Configuration["AdminInfo:adminPassword"] }
-            };
-
-            if (environment == "test")
-            {
-                userSecrets["issuerSigningKey"] = "This_is_a_super_secure_key_and_you_know_it";
-                userSecrets["dbConnectionString"] = "TEST";
-            }
-            
-            foreach (var secret in userSecrets)
-            {
-                if (environment != "test" && secret.Value is null)
-                {
-                    throw new Exception($"{secret.Key} is missing.");
-                }
-            }
+            var config = builder.Configuration;
             
             AddServices();
             ConfigureSwagger();
@@ -57,17 +31,9 @@ namespace SolarWatch
             using var scope = app.Services.CreateScope();
             var authenticationSeeder = scope.ServiceProvider.GetRequiredService<AuthenticationSeeder>();
 
-            if (authenticationSeeder is not null)
-            {
-                Console.WriteLine("AuthenticationSeeder retrieved successfully.");
-                authenticationSeeder.AddRoles();
-                authenticationSeeder.AddAdmin();
-            }
-            else
-            {
-                Console.WriteLine("Error: AuthenticationSeeder could not be found.");
-            }
-
+            authenticationSeeder.AddRoles();
+            authenticationSeeder.AddAdmin();
+            
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -105,20 +71,12 @@ namespace SolarWatch
                 builder.Services.AddTransient<IMoonRepository, MoonRepository>();
                 builder.Services.AddScoped<IAuthService, AuthService>();
                 builder.Services.AddScoped<ITokenService>(provider =>
-                    new TokenService(userSecrets["validIssuer"], userSecrets["validAudience"], userSecrets["issuerSigningKey"]));
+                    new TokenService(config["JwtSettings:ValidIssuer"], config["JwtSettings:ValidAudience"], config["JwtSettings:IssuerSigningKey"]));
                 builder.Services.AddScoped<AuthenticationSeeder>(provider =>
                 {
                     var roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
                     var userManager = provider.GetRequiredService<UserManager<IdentityUser>>();
-            
-                    // Fetch adminInfo from configuration or any other source
-                    var adminInfo = new Dictionary<string, string>
-                    {
-                        {"adminEmail", userSecrets["adminEmail"]},
-                        {"adminPassword", userSecrets["adminPassword"]}
-                    };
-
-                    return new AuthenticationSeeder(roleManager, userManager, adminInfo);
+                    return new AuthenticationSeeder(roleManager, userManager, config);
                 });
             }
 
@@ -155,8 +113,9 @@ namespace SolarWatch
 
             void AddDbContext()
             {
-                builder.Services.AddDbContext<SolarWatchContext>(options => options.UseSqlServer(userSecrets["dbConnectionString"]));
-                builder.Services.AddDbContext<UsersContext>(options => options.UseSqlServer(userSecrets["dbConnectionString"]));
+                Console.WriteLine(config["Database:ConnectionString"]);
+                builder.Services.AddDbContext<SolarWatchContext>(options => options.UseSqlServer(config["Database:ConnectionString"]));
+                builder.Services.AddDbContext<UsersContext>(options => options.UseSqlServer(config["Database:ConnectionString"]));
             }
             
             void AddAuthentication()
@@ -172,10 +131,10 @@ namespace SolarWatch
                             ValidateAudience = true,
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
-                            ValidIssuer = userSecrets["validIssuer"],
-                            ValidAudience = userSecrets["validAudience"],
+                            ValidIssuer = config["JwtSettings:ValidIssuer"],
+                            ValidAudience = config["JwtSettings:ValidAudience"],
                             IssuerSigningKey = new SymmetricSecurityKey(
-                                Encoding.UTF8.GetBytes(userSecrets["issuerSigningKey"])
+                                Encoding.UTF8.GetBytes(config["JwtSettings:IssuerSigningKey"])
                             ),
                         };
                     });

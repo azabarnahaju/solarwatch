@@ -5,15 +5,17 @@ namespace SolarWatch.Services.CityData;
 public class CityDataProvider : ICityDataProvider
 {
     private readonly ILogger<CityDataProvider> _logger;
+    private readonly IConfiguration _config;
 
-    public CityDataProvider(ILogger<CityDataProvider> logger)
+    public CityDataProvider(ILogger<CityDataProvider> logger, IConfiguration config)
     {
         _logger = logger;
+        _config = config;
     }
 
     public async Task<string> GetCity(string cityName)
     {
-        var apiKey = "d80b2959da1f5d7225828323dee566bd";
+        var apiKey = _config["ApiKeys:OpenWeatherAPI"];
         
         var url = $"http://api.openweathermap.org/geo/1.0/direct?q={cityName}&limit=1&appid={apiKey}";
 
