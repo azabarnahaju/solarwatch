@@ -71,7 +71,7 @@ namespace SolarWatch
                 builder.Services.AddTransient<IMoonRepository, MoonRepository>();
                 builder.Services.AddScoped<IAuthService, AuthService>();
                 builder.Services.AddScoped<ITokenService>(provider =>
-                    new TokenService(config["JwtSettings:ValidIssuer"], config["JwtSettings:ValidAudience"], config["JwtSettings:IssuerSigningKey"]));
+                    new TokenService(config["JwtSettings_ValidIssuer"], config["JwtSettings_ValidAudience"], config["JwtSettings_IssuerSigningKey"]));
                 builder.Services.AddScoped<AuthenticationSeeder>(provider =>
                 {
                     var roleManager = provider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -113,9 +113,8 @@ namespace SolarWatch
 
             void AddDbContext()
             {
-                Console.WriteLine(config["Database:ConnectionString"]);
-                builder.Services.AddDbContext<SolarWatchContext>(options => options.UseSqlServer(config["Database:ConnectionString"]));
-                builder.Services.AddDbContext<UsersContext>(options => options.UseSqlServer(config["Database:ConnectionString"]));
+                builder.Services.AddDbContext<SolarWatchContext>(options => options.UseSqlServer(config["Database_ConnectionString"]));
+                builder.Services.AddDbContext<UsersContext>(options => options.UseSqlServer(config["Database_ConnectionString"]));
             }
             
             void AddAuthentication()
@@ -131,10 +130,10 @@ namespace SolarWatch
                             ValidateAudience = true,
                             ValidateLifetime = true,
                             ValidateIssuerSigningKey = true,
-                            ValidIssuer = config["JwtSettings:ValidIssuer"],
-                            ValidAudience = config["JwtSettings:ValidAudience"],
+                            ValidIssuer = config["JwtSettings_ValidIssuer"],
+                            ValidAudience = config["JwtSettings_ValidAudience"],
                             IssuerSigningKey = new SymmetricSecurityKey(
-                                Encoding.UTF8.GetBytes(config["JwtSettings:IssuerSigningKey"])
+                                Encoding.UTF8.GetBytes(config["JwtSettings_IssuerSigningKey"])
                             ),
                         };
                     });

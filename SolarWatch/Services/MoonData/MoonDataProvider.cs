@@ -15,7 +15,7 @@ public class MoonDataProvider : IMoonDataProvider
     
     public async Task<string> GetMoonData(double lat, double lon)
     {
-        var apiKey = _config["ApiKeys:StormGlass"];
+        var apiKey = _config["ApiKeys_StormGlass"];
         
         var url = $"https://api.stormglass.io/v2/astronomy/point?lat=${lat}&lng=${lon}";
 

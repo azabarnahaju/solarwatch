@@ -15,7 +15,7 @@ public class CityDataProvider : ICityDataProvider
 
     public async Task<string> GetCity(string cityName)
     {
-        var apiKey = _config["ApiKeys:OpenWeatherAPI"];
+        var apiKey = _config["ApiKeys_OpenWeatherAPI"];
         
         var url = $"http://api.openweathermap.org/geo/1.0/direct?q={cityName}&limit=1&appid={apiKey}";
 
