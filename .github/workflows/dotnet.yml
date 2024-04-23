@@ -5,9 +5,9 @@ name: .NET
 
 on:
   push:
-    branches: [ "development" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "development" ]
+    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
@@ -27,3 +27,12 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      env:
+        JwtSettings__ValidIssuer: ${{ secrets.JwtSettings_ValidIssuer }}
+        JwtSettings__ValidAudience: ${{ secrets.JwtSettings_ValidAudience }}
+        JwtSettings__IssuerSigningKey: ${{ secrets.JwtSettings_IssuerSigningKey }}
+        AdminInfo__AdminPassword: ${{ secrets.AdminInfo_AdminPassword }}
+        AdminInfo__AdminEmail: ${{ secrets.AdminInfo_AdminEmail }}
+        Database__ConnectionString: ${{ secrets.Database_ConnectionString }}
+        ApiKey__OpenWeatherAPI: ${{ secrets.ApiKey_OpenWeatherAPI }}
+        ApiKey__StormGlass: ${{ secrets.ApiKey_StormGlass }}
