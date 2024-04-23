@@ -108,16 +108,18 @@ SolarWatch is a web application built with ASP.NET and React.js that enables use
    cd SolarWatchUI
    npm install
    ```
-4. Enter your user secrets in `dotnet user-secrets`
-   ```sh
-    cd SolarWatch
-    dotnet user-secrets init
-    dotnet user-secrets set "JwtSettings:ValidIssuer" "YOUR_VALID_ISSUER"
-    dotnet user-secrets set "JwtSettings:validAudience" "YOUR_VALID_AUDIENCE"
-    dotnet user-secrets set "JwtSettings:IssuerSigningKey" "YOUR_ISSUER_SIGNING_KEY"
-    dotnet user-secrets set "Database:ConnectionString" "YOUR_DB_CONNECTION_STRING"
-    dotnet user-secrets set "AdminInfo:adminEmail" "YOUR_CUSTOM_ADMIN_EMAIL_ADDRESS"
-    dotnet user-secrets set "AdminInfo:adminPassword" "YOUR_CUSTOM_ADMIN_PASSWORD"
+4. Enter your user secrets in configuration
+   ```json
+    {
+      "JwtSettings_ValidIssuer": "YOUR_VALID_ISSUER",
+      "JwtSettings_ValidAudience": "YOUR_VALID_AUDIENCE",
+      "JwtSettings_IssuerSigningKey": "YOUR_ISSUER_SIGNING_KEY",
+      "Database_ConnectionString": "YOUR_DB_CONNECTION_STRING",
+      "AdminInfo_AdminEmail": "YOUR_CUSTOM_ADMIN_EMAIL_ADDRESS",
+      "AdminInfo_AdminPassword": "YOUR_CUSTOM_ADMIN_PASSWORD",
+      "ApiKeys_OpenWeatherAPI": "YOUR_OPENWEATHER_API_KEY",
+      "ApiKeys_StormGlass": "YOUR_STORMGLASS_API_KEY"
+    }
    ```
 5. Set up SQL Server in Docker
     ```sh
