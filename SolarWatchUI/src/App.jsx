@@ -3,6 +3,7 @@ import './App.css'
 import Home from './Pages/Home/Home'
 import SolarMovement from './Pages/SolarMovement/SolarMovement'
 import Authentication from './Pages/Authentication/Authentication'
+import MoonData from './Pages/MoonData/MoonData'
 
 function App() {
   return (
@@ -11,6 +12,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<Authentication/>}/>
         <Route path="/solar-watch" element={<SolarMovement />}/>
+        <Route path="/moon-data" element={<MoonData />}/>
       </Routes>
     </div>
   )
