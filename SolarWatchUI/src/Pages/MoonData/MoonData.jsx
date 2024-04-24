@@ -64,55 +64,63 @@ const MoonData = () => {
           Logout
         </button>
       </div>
-      <div className="sun-data-content d-flex justify-content-center"></div>
-      <Form
-        date={null}
-        setDate={null}
-        city={city}
-        setCity={setCity}
-        sunMovement={null}
-        setSunMovement={null}
-        handleSubmit={handleSubmit}
-      />
-      <div className="sun-data-container">
-        {info ? (
-          <table>
-            <tbody>
-              <tr>
-                <td>Current phase</td>
-                <td>
-                  {info.currentPhase}
-                  <MoonPhase phase={info.currentPhase}></MoonPhase>
-                </td>
-              </tr>
-              <tr>
-                <td>Next phase</td>
-                <td>
-                  {info.nextPhase}
-                  <MoonPhase phase={info.nextPhase}></MoonPhase>
-                </td>
-              </tr>
-              <tr>
-                <td>Next begins at</td>
-                <td>{info.nextPhaseTime}</td>
-              </tr>
-              <tr>
-                <td>Moonrise</td>
-                <td>{info.moonRise}</td>
-              </tr>
-              <tr>
-                <td>Moonset</td>
-                <td>{info.moonSet}</td>
-              </tr>
-              <tr>
-                <td>Moon fraction</td>
-                <td>{Math.round(info.moonFraction * 100)}%</td>
-              </tr>
-            </tbody>
-          </table>
-        ) : (
-          <h3>No data</h3>
-        )}
+      <div className="moon-data-content d-flex justify-content-around">
+        <Form
+          date={null}
+          setDate={null}
+          city={city}
+          setCity={setCity}
+          sunMovement={null}
+          setSunMovement={null}
+          handleSubmit={handleSubmit}
+        />
+        <div className="sun-data-container">
+          {info ? (
+            <div>
+              <h4>{moonData.city} moon information for _date_</h4>
+              <table className="moon-data-table">
+                <tbody>
+                  <tr>
+                    <td className="variable">Current phase</td>
+                    <td className="d-flex justify-content-center text-align-cetner align-items-center">
+                      {info.currentPhase}
+                      <td className="moon-phase">
+                        <MoonPhase phase={info.currentPhase}></MoonPhase>
+                      </td>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="variable">Next phase</td>
+                    <td className="d-flex justify-content-center text-align-cetner align-items-center">
+                      {info.nextPhase}
+                      <td className="moon-phase">
+                        <MoonPhase phase={info.nextPhase}></MoonPhase>
+                      </td>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="variable">Next begins at</td>
+                    <td>{info.nextPhaseTime}</td>
+                  </tr>
+                  <tr>
+                    <td className="variable">Moonrise</td>
+                    <td>{info.moonRise}</td>
+                  </tr>
+                  <tr>
+                    <td className="variable">Moonset</td>
+                    <td>{info.moonSet}</td>
+                  </tr>
+                  <tr>
+                    <td className="variable">Moon fraction</td>
+                    <td>{Math.round(info.moonFraction * 100)}%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <h3>No data</h3>
+          )}
+        </div>
       </div>
     </ProtectedRoute>
   );
