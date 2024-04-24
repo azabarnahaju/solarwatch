@@ -8,10 +8,12 @@ import { useNavigate } from 'react-router-dom';
 import UserContext from '../../Contexts/UserContext';
 import MoonPhase from '../../Components/MoonPhase/MoonPhase';
 import { removeToken } from "../../Services/AuthenticationService";
+import { getTodayFormatted } from "../../Utils/HelperFunctions";
 
 const MoonData = () => {
     const [moonData, setMoonData] = useState("");
     const [city, setCity] = useState("");
+    const [date, setDate] = useState("");
     const [info, setInfo] = useState("");
     const navigate = useNavigate();
     const { setCurrentUser } = useContext(UserContext);
@@ -32,9 +34,10 @@ const MoonData = () => {
         return;
       }
 
-      setMoonData({ city: city });
+      const currentDate = getTodayFormatted();
+      setMoonData({ city: city, date: date });
 
-      const url = `${baseUrl}/moon/getMoonData?cityName=${city}`;
+      const url = `${baseUrl}/moon/getMoonData?cityName=${city}&date=${date ? date : currentDate}`;
 
       const response = await fetch(url, {
         method: "GET",
@@ -52,6 +55,7 @@ const MoonData = () => {
         console.log("Error getting information.");
       }
       setCity("");
+      setDate("");
     };
 
   return (
@@ -65,19 +69,24 @@ const MoonData = () => {
         </button>
       </div>
       <div className="moon-data-content d-flex justify-content-around">
-        <Form
-          date={null}
-          setDate={null}
-          city={city}
-          setCity={setCity}
-          sunMovement={null}
-          setSunMovement={null}
-          handleSubmit={handleSubmit}
-        />
+        <div className='moon-form-container'>
+          <Form
+            date={date}
+            setDate={setDate}
+            city={city}
+            setCity={setCity}
+            sunMovement={null}
+            setSunMovement={null}
+            handleSubmit={handleSubmit}
+          />
+        </div>
         <div className="sun-data-container">
           {info ? (
-            <div>
-              <h4>{moonData.city} moon information for _date_</h4>
+            <div className="inner-info-container">
+              <h4>
+                {moonData.city} moon information for{" "}
+                {moonData.date ? moonData.date.replaceAll("-", "/") : "today"}
+              </h4>
               <table className="moon-data-table">
                 <tbody>
                   <tr>
@@ -100,15 +109,15 @@ const MoonData = () => {
                   </tr>
                   <tr>
                     <td className="variable">Next begins at</td>
-                    <td>{info.nextPhaseTime}</td>
+                    <td>{new Date(info.nextPhaseTime).toLocaleString()} UTC</td>
                   </tr>
                   <tr>
                     <td className="variable">Moonrise</td>
-                    <td>{info.moonRise}</td>
+                    <td>{new Date(info.moonRise).toLocaleString()} UTC</td>
                   </tr>
                   <tr>
                     <td className="variable">Moonset</td>
-                    <td>{info.moonSet}</td>
+                    <td>{new Date(info.moonSet).toLocaleString()} UTC</td>
                   </tr>
                   <tr>
                     <td className="variable">Moon fraction</td>
