@@ -1,5 +1,6 @@
 #solar-movement-form {
-  width: 50vw;
+  flex: 1;
+  margin-bottom: 2em;
 }
 
 .sun-form-label {
@@ -8,7 +9,6 @@
 
 .sun-form-input {
   background-color: #efecff;
-  width: 15vw;
   margin-bottom: 2em;
   margin-top: 0.3em;
 }
@@ -31,3 +31,4 @@
   background-color: #9f8bff;
   color: #0d0149;
 }
+

@@ -75,7 +75,7 @@ const SolarMovement = () => {
         </button>
         <button className="nav-btn" onClick={logoutUser}>Logout</button>
       </div>
-      <div className="sun-data-content d-flex justify-content-center">
+      <div className="sun-data-content d-flex justify-content-around">
         <Form date={date} setDate={setDate} city={city} setCity={setCity} sunMovement={sunMovement} setSunMovement={setSunMovement} handleSubmit={handleSubmit}/>
         <div className="sun-data-container">
           {info ? (

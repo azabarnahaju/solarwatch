@@ -1,34 +1,31 @@
-.sun-data-content {
+
+.moon-data-content {
   margin-top: 20vh;
-}
-
-.sun-data-container {
   display: flex;
-  justify-content: center;
-  text-align: center;
-  padding: 1em;
-  border-radius: 1em;
-  margin-right: 18vw;
-  color: #efecff;
+  flex-wrap: wrap;
+  margin-right: 15vw;
+  margin-left: 15vw;
 }
 
-.nav-btn {
-  color: white;
-  font-family: "Gruppo", sans-serif;
-  font-weight: 600;
-  letter-spacing: 0.2rem;
-  font-style: normal;
-  border: 2px solid #9f8bff;
-  background-color: #343cff;
-  border-radius: 1rem;
-  padding: 0.5em;
-  padding-left: 1.75em;
-  padding-right: 1.75em;
-  transition: 0.3s ease-in-out;
+@media (max-width: 768px) {
+  .moon-data-content {
+    flex-direction: column;
+  }
 }
 
-.nav-btn:hover {
-  background-color: #9f8bff;
-  color: #0d0149;
-  transition: 0.3s ease-in-out;
+.moon-data-table td {
+  padding: 0.2em;
+  padding-right: 0.5em;
+  padding-left: 0.5em;
+}
+
+.moon-data-table tbody tr .variable {
+  text-align:start;
+  font-weight: bold;
+}
+
+.moon-data-table tbody tr td .moon-phase {
+  text-align: start;
+  color: rgba(255, 255, 255, 0.377);
+  font-size:1.5em;
 }

@@ -1,15 +1,23 @@
 .sun-data-content {
   margin-top: 20vh;
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: 5em;
+  margin-left: 5em;
 }
 
 .sun-data-container {
   display: flex;
   justify-content: center;
   text-align: center;
+  align-items: center;
   padding: 1em;
   border-radius: 1em;
-  margin-right: 18vw;
   color: #efecff;
+  border: 1px solid white;
+  background-color: #9e8bff1c;
+  flex: 0.8;
+  margin: 3em;
 }
 
 .nav-btn {
@@ -31,4 +39,10 @@
   background-color: #9f8bff;
   color: #0d0149;
   transition: 0.3s ease-in-out;
+}
+
+@media (max-width: 768px) {
+  .sun-data-content {
+    flex-direction: column;
+  }
 }
