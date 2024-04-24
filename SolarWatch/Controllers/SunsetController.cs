@@ -79,7 +79,7 @@ public class SunsetController : ControllerBase
         try
         {
             var city = await _cityRepository.GetCity(cityName);
-            while (city is null)
+            if (city is null)
             {
                 var cityFromProvider = await GetCity(cityName);
                 await _cityRepository.Add(cityFromProvider);
@@ -87,7 +87,7 @@ public class SunsetController : ControllerBase
             }
             
             var sunData = await _sunsetRepository.GetByCityAndDate(city.Id, date);
-            while (sunData is null)
+            if (sunData is null)
             {
                 var sunDataFromProvider = await _sunDataProvider.GetSunData(city.Lat, city.Lon, date);
                 var sunDataFromProviderFormatted =

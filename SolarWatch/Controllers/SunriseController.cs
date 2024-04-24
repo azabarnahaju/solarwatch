@@ -88,7 +88,7 @@ public class SunriseController : ControllerBase
             }
             
             var sunData = await _sunriseRepository.GetByCityAndDate(city.Id, date);
-            while (sunData is null)
+            if (sunData is null)
             {
                 var sunDataFromProvider = await _sunDataProvider.GetSunData(city.Lat, city.Lon, date);
                 var sunDataFromProviderFormatted =
