@@ -5,15 +5,18 @@ namespace SolarWatch.Services.MoonData;
 public class MoonDataProvider : IMoonDataProvider
 {
     private readonly ILogger<MoonDataProvider> _logger;
+    private readonly IConfiguration _config;
 
-    public MoonDataProvider(ILogger<MoonDataProvider> logger)
+    public MoonDataProvider(ILogger<MoonDataProvider> logger, IConfiguration config)
     {
         _logger = logger;
+        _config = config;
     }
     
     public async Task<string> GetMoonData(double lat, double lon)
     {
-        var apiKey = "ad8ea75a-f658-11ee-bf69-0242ac130002-ad8ea7e6-f658-11ee-bf69-0242ac130002";
+        var apiKey = _config["ApiKeys_StormGlass"];
+        
         var url = $"https://api.stormglass.io/v2/astronomy/point?lat=${lat}&lng=${lon}";
 
         using var client = new HttpClient();
