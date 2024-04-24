@@ -24,6 +24,11 @@ public class MoonRepository : IMoonRepository
         return await _db.MoonData.FirstOrDefaultAsync(m => m.CityId == cityId);
     }
 
+    public async Task<MoonData?> GetByCityAndDate(int cityId, DateTime date)
+    {
+        return await _db.MoonData.FirstOrDefaultAsync(m => m.CityId == cityId && m.Date.Date == date.Date);
+    }
+
     public async Task<MoonData?> GetById(int id)
     {
         return await _db.MoonData.FirstOrDefaultAsync(m => m.Id == id);
