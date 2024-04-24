@@ -5,6 +5,7 @@
   flex-wrap: wrap;
   margin-right: 15vw;
   margin-left: 15vw;
+
 }
 
 @media (max-width: 768px) {
@@ -28,4 +29,19 @@
   text-align: start;
   color: rgba(255, 255, 255, 0.377);
   font-size:1.5em;
+}
+
+.inner-info-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 1em;
+}
+
+.moon-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 5em;
+  padding-left: 5em;
 }

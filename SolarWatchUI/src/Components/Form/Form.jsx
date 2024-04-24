@@ -5,7 +5,6 @@ const Form = ({ date, setDate, city, setCity, sunMovement, setSunMovement, handl
   return (
     <form id="solar-movement-form" className="d-flex justify-content-center">
       <div>
-        {sunMovement ? (
           <div>
             <label htmlFor="date" className="sun-form-label form-label ms-2">
               Select a date (optional)
@@ -18,9 +17,6 @@ const Form = ({ date, setDate, city, setCity, sunMovement, setSunMovement, handl
               onChange={(e) => setDate(e.target.value)}
             />
           </div>
-        ) : (
-          <></>
-        )}
         <div>
           <label htmlFor="city" className="sun-form-label form-label ms-2">
             Type a city

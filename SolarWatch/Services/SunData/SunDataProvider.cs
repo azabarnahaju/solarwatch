@@ -35,5 +35,4 @@ public class SunDataProvider : ISunDataProvider
         var response = await client.GetAsync(url);
         return await response.Content.ReadAsStringAsync();
     }
-    
 }

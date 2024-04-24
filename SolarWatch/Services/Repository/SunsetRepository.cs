@@ -25,7 +25,7 @@ public class SunsetRepository : ISunsetRepository
     
     public async Task<SolarMovement?> GetByCityAndDate(int cityId, DateTime date)
     {
-        return await _dbContext.Sunsets.FirstOrDefaultAsync(s => s.CityId == cityId && s.Date == date);
+        return await _dbContext.Sunsets.FirstOrDefaultAsync(s => s.CityId == cityId && s.Date.Date == date.Date);
     }
 
     public async Task<SolarMovement?> GetById(int id)

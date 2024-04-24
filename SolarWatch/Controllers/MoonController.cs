@@ -45,7 +45,7 @@ public class MoonController : ControllerBase
     }
     
     [HttpGet("GetMoonData")]
-    public async Task<ActionResult> GetMoonDataByCity(string cityName)
+    public async Task<ActionResult> GetMoonDataByCity(string cityName, DateTime date)
     {
         try
         {
@@ -57,17 +57,18 @@ public class MoonController : ControllerBase
                 city = await _cityRepository.GetCity(cityFromProvider.Name);
             }
 
-            var moonData = await _moonRepository.GetByCity(city.Id);
-            while (moonData is null)
+            var moonData = await _moonRepository.GetByCityAndDate(city.Id, date);
+            if (moonData is null)
             {
-                var moonDataFromProvider = _moonDataProvider.GetMoonDataPlaceholder(city.Lat, city.Lon);
+                var moonDataFromProvider = _moonDataProvider.GetMoonDataPlaceholder(city.Lat, city.Lon, date);
+                
                 _logger.LogInformation(moonDataFromProvider);
                 var moonDataToAdd =
                     _jsonProcessor.ProcessMoonJsonResponse(moonDataFromProvider, city.Id);
                
                 await _moonRepository.Add(moonDataToAdd);
             
-                moonData = await _moonRepository.GetByCity(city.Id);
+                moonData = await _moonRepository.GetByCityAndDate(city.Id, date);
             }
         
             return Ok(moonData);
@@ -75,7 +76,7 @@ public class MoonController : ControllerBase
         catch (Exception e)
         {
             _logger.LogError(e, "Error getting moon data.");
-            return NotFound("Error getting moon data.");
+            return NotFound("Error getting moon data: " + e.Message);
         }
     }
 
