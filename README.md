@@ -43,7 +43,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-<!--[![Product Name Screen Shot][product-screenshot]](https://example.com) -->
+![Product Name Screen Shot][product-home]
 
 SolarWatch is a web application built with ASP.NET and React.js that enables users to retrieve essential solar and moon-related information for any city and date. The application utilizes OpenWeatherAPI, Sunrise-Sunset API and stormglass.io to fetch accurate information based on the user's input.
 
@@ -209,3 +209,4 @@ Project Link: [https://github.com/azabarnahaju/solarwatch](https://github.com/az
 [sql-server-url]: https://www.microsoft.com/en-us/sql-server/sql-server-downloads
 [Docker]: https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white
 [docker-url]: https://www.docker.com 
+[product-home]: images/solarwatch_home.gif
